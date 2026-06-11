@@ -177,8 +177,8 @@
             const formUrl = "https://forms.gle/5Z218Ee3Lh69Tfu17";
 
             const handleApply = () => {
-                const launchTime = new Date('2026-06-14T18:00:00');
-                const closeTime = new Date('2026-06-18T08:00:00');
+                const launchTime = new Date('2026-06-04T18:00:00');
+                const closeTime = new Date('2026-06-08T08:00:00');
                 const currentTime = new Date();
 
                 if (currentTime < launchTime) {
@@ -572,7 +572,7 @@
                         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-teal-950/75 backdrop-blur-sm transition-smooth" onClick={() => setShowInfoModal(false)}>
                             <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl relative animate-scale-in" onClick={e => e.stopPropagation()}>
                                 
-                                {new Date() < new Date('2026-06-14T18:00:00') ? (
+                                {new Date() < new Date('2026-06-04T18:00:00') ? (
                                     /* DYNAMICKÝ TEXT PRO 1. FÁZI */
                                     <>
                                         <div className="bg-yellow-100 text-yellow-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
