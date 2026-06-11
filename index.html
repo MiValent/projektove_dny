@@ -519,7 +519,7 @@
                 switch(type) {
                     case "studentský":
                         return "bg-pink-50 dark:bg-pink-500/10 text-pink-700 dark:text-pink-400 border-pink-200/60 dark:border-pink-500/30 font-semibold";
-                    case "expert":
+                    case "host z praxe": // 🌟 Reaguje na hodnotu v datech
                         return "bg-yellow-50 dark:bg-yellow-500/10 text-amber-800 dark:text-amber-400 border-yellow-300 dark:border-yellow-500/30 font-extrabold flex items-center gap-1";
                     default:
                         return "";
@@ -529,7 +529,7 @@
             const getLeaderTypeLabel = (type) => {
                 switch(type) {
                     case "studentský": return "Studentský projekt";
-                    case "expert": return "🛡️ Expert z praxe";
+                    case "host z praxe": return "🛡️ Expert z praxe"; // 🌟 Ale na web vypíše "Expert z praxe"
                     default: return "";
                 }
             };
