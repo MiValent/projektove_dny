@@ -3,16 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katalog Seminářů 2026/27 | Gymnázium Slaný</title>
+    <title>Katalog Projektových Dnů 2026 | Gymnázium Slaný</title>
+    <!-- Načtení Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f766e',    /* Tmavě tyrkysová (Deep Teal) */
+                            medium: '#0d9488',  /* Střední tyrkysová (Teal) */
+                            light: '#2dd4bf',   /* Světlá tyrkysová (Turquoise) */
+                            cyan: '#06b6d4',    /* Azurová (Cyan) */
+                            yellow: '#facc15',  /* Zářivě žlutá (Yellow Accent) */
+                            yellowHover: '#eab308',
+                            bg: '#f0fdfa'       /* Velmi lehký tyrkysový nádech na pozadí */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Plynulé přechody pro interaktivní prvky */
+        .transition-smooth {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Animace pro načtení modálu */
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 pb-20">
+<body class="bg-teal-50/30 text-slate-900 pb-20">
     <div id="root"></div>
 
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -23,6 +60,7 @@
     <script type="text/babel">
         const { useState, useMemo, useEffect } = React;
 
+        // Pomocný komponent pro zobrazení moderních Lucide ikon
         const Icon = ({ name, className }) => {
             useEffect(() => { 
                 if (window.lucide) window.lucide.createIcons(); 
@@ -30,423 +68,460 @@
             return <i data-lucide={name} className={className}></i>;
         };
 
-        const SEMINARS_DATA = [
-              { 
-                "id": "B2F", 
-                "code": "B2F", 
-                "title": "Přípravný seminář k mezinárodní zkoušce z anglického jazyka - úroveň B2",
-                "subject": "angličtina", 
-                "group": "cizí jazyky", 
-                "years": ["3. ročník"], 
-                "isCertificate": true, 
-                "target": "Studenti, kteří chtějí získat mezinárodně uznávaný certifikát B2 First a potvrdit tak svou jazykovou samostatnost pro potřeby dalšího studia i praxe.", 
-                "warning": "Vstupní test se skládá na konci 2. ročníku.", 
-                "annotation": "Chcete získat v pracovním i studijním životě využitelný a mezinárodně uznávaný jazykový certifikát na úrovni B2? Vítanou pomocí vám tak může být výběrový seminář zaměřený na efektivní a intenzivní přípravu k jeho složení. V průběhu roku budete rozvíjet a prohlubovat všechny testované dovednosti (listening, writing, speaking, use of English). Podmínkou přijetí je úspěšné složení vstupního testu, který zaručuje, že tempo výuky bude odpovídat vašim středně pokročilým znalostem. Seminář vyžaduje vysokou míru samostatnosti a aktivní přístup k přípravě." 
+        const PROJECTS_DATA = [
+            { 
+                "id": "vcela", 
+                "title": "S medem za zády: Asistent exkurzí",
+                "years": ["VG"], 
+                "days": ["ST"],
+                "leaderType": "expert",
+                "capacity": "15 studentů",
+                "location": "Včelařské centrum Královice (doprava zajištěna)",
+                "target": "Studenti vyššího gymnázia, kteří mají rádi práci s dětmi, chtějí si vyzkoušet roli lídra a nebojí se včelstev.", 
+                "warning": "Projekt z pochopitelných důvodů není vhodný pro studenty s těžkou alergií na včelí bodnutí nebo se silným strachem ze včel.", 
+                "annotation": "Staň se na jeden den průvodcem dětí z mateřských a základních škol Slánska na velké zážitkové akci. Povedeš skupinky zvídavých dětí po interaktivní Včelí stezce v Královicích, pomůžeš jim s bezpečným pozorováním úlů, ukázkou včelařských pomůcek a vyzkoušíte si společně vytáčení i ochutnávání čerstvého voňavého medu přímo z medometu. Skvělá příležitost získat základy organizace a pedagogického vedení." 
             },
             { 
-                "id": "CAE", 
-                "code": "CAE", 
-                "title": "Přípravný seminář k mezinárodní zkoušce z anglického jazyka - úroveň C1",
-                "subject": "angličtina", 
-                "group": "cizí jazyky", 
-                "years": ["4. ročník"], 
-                "isCertificate": true, 
-                "target": "Studenti, kteří cílí na prestižní mezinárodní certifikát Cambridge C1 Advanced pro potřeby studia v zahraničí nebo na náročných oborech v ČR.", 
-                "warning": "", 
-                "annotation": "Cítíte, že máte na víc? Chtěli byste studovat v zahraničí nebo se angličtině plánujete věnovat v rámci svých studií na VŠ? Pak neváhejte a zapište si přípravný seminář ke složení mezinárodní jazykové zkoušky na úrovni C1. V průběhu roku budete systematicky rozvíjet a prohlubovat všechny testované dovednosti (listening, writing, speaking, use of English), a to s využitím široké škály témat odpovídajících pokročilé jazykové úrovni. Seminář vyžaduje vysokou míru samostatnosti a aktivní přístup k přípravě." 
+                "id": "letadla", 
+                "title": "Svět dopravních letadel: Letecký workshop",
+                "years": ["NG", "VG"], 
+                "days": ["ČT"],
+                "leaderType": "expert",
+                "capacity": "30 studentů",
+                "location": "Auly školy",
+                "target": "Pro každého, koho zajímá letectví, konstrukce strojů, moderní fyzika, technologie budoucnosti nebo krizové řízení.", 
+                "warning": "Součástí je interaktivní týmová soutěž v aerodynamice vlaštovek a návrh letadla budoucnosti s pomocí AI.", 
+                "annotation": "Boeing vs. Airbus – které letadlo je bezpečnější a jak se vlastně liší jejich pilotování v reálné praxi? Prozkoumej tajuplný svět nad mraky s aktivním kapitánem Štěpánem Kolomazníkem, který pilotoval oba ikonické stroje. Čeká tě exkluzivní promítání autorských záběrů přímo z kokpitu, modelové krizové řízení poruchy ve vzduchu a debata o všem, co obnáší profesionální letectví." 
             },
             { 
-                "id": "KAJ", 
-                "code": "KAJ", 
-                "title": "Konverzační seminář z anglického jazyka",
-                "subject": "angličtina", 
-                "group": "cizí jazyky", 
-                "years": ["4. ročník"], 
-                "isCertificate": false, 
-                "target": "Studenti, kteří z angličtiny nematurují, ale chtějí si udržet a dále rozvíjet svou schopnost mluvit, argumentovat a přirozeně komunikovat v cizím jazyce.", 
-                "warning": "", 
-                "annotation": "Mluviti stříbro, mlčeti…tu rozhodně nebudete! Pokud neskládáte profilovou maturitní zkoušku z angličtiny, ale zároveň chcete dále rozvíjet své dovednosti a kompetence v oblasti mluveného jazyka, je tento seminář právě pro vás. Pokrývá obecná témata a aktuální dění ve světě, a to formou debat, individuálních/skupinových ústních prezentací, krátkodobých projektů apod. Nedílnou součástí semináře je samostatná práce a příprava, ale především touha mluvit anglicky 𝑛𝑜 𝑚𝑎𝑡𝑡𝑒𝑟 𝑤ℎ𝑎𝑡!" 
+                "id": "kasir", 
+                "title": "Zvířata z papíru: Kašírovaný workshop",
+                "years": ["NG", "VG"], 
+                "days": ["ST"],
+                "leaderType": "studentský",
+                "capacity": "20 studentů",
+                "location": "Ateliér výtvarné výchovy",
+                "target": "Pro tvořivé duše, budoucí designéry a každého, kdo chce manuálně tvořit a zanechat svou stopu na vizuálním vzhledu školy.", 
+                "warning": "Počítejte s tím, že se při práci s lepidlem a papírem můžete ušpinit. Doporučujeme pracovní triko.", 
+                "annotation": "Zanech po sobě trvalé umělecké dílo přímo na chodbách školy! Na tomto kreativním a hravém workshopu vedeném zkušenými spolužačkami pronikneš do tradiční sochařské techniky papier-mâché (kašírování). Společně vytvoříme pevné drátěné a papírové 3D korpusy fantastických zvířat. Ty přes prázdniny bezpečně vyschnou a od září se v hodinách výtvarky promění v originální barevné instalace chodeb." 
             },
             { 
-                "id": "CM", 
-                "code": "CM", 
-                "title": "Cvičení z matematiky",
-                "subject": "matematika", 
-                "group": "přírodní vědy", 
-                "years": ["4. ročník"], 
-                "isCertificate": false, 
-                "target": "Studenti, kteří si zvolili matematiku jako svůj maturitní předmět a chtějí se cíleně připravit na didaktický test.", 
-                "warning": "", 
-                "annotation": "Máte obavy z maturitního testu z matematiky? Tento seminář je navržen jako intenzivní a systematický průvodce, který vás provede všemi devíti klíčovými tématy nezbytnými pro úspěšné složení státní maturity. Pracujeme s osvědčenou učebnicí Maturita v pohodě od vydavatelství Taktik, která nabízí srozumitelný přehled látky i dostatek příkladů k procvičení. Cílem není jen teorii znát, ale umět ji v časovém limitu testu správně použít." 
+                "id": "prvni-pomoc", 
+                "title": "První pomoc na vlastní kůži",
+                "years": ["NG", "VG"], 
+                "days": ["ST", "ČT"],
+                "leaderType": "studentský",
+                "capacity": "40 studentů",
+                "location": "Areál a zahrada školy",
+                "target": "Pro každého, kdo se nechce jen biflovat teorii z knížek, ale chce získat skutečné sebevědomí pro záchranu lidského života.", 
+                "warning": "Situace a zranění budou velmi realisticky namaskována umělou krví a líčením pro maximální autentičnost zážitku.", 
+                "annotation": "Chcete vědět, jak správně zachovat chladnou hlavu, když jde v reálném životě do tuhého? Žádná nudná teorie v lavicích. Tvoji starší spolužáci v roli figurantů připraví po celém areálu školy krizová stanoviště s věrohodně namaskovanými zraněními, autonehodami a kolapsovými stavy. Celý okruh si projdeš v roli aktivního zachránce a odneseš si neprůstřelnou praktickou zkušenost." 
             },
             { 
-                "id": "KNJ", 
-                "code": "KNJ", 
-                "title": "Konverzace v německém jazyce",
-                "subject": "němčina", 
-                "group": "cizí jazyky", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Studenti, kteří chtějí maturovat z němčiny, nebo chtějí svou němčinu dotáhnout na vysokou úroveň před odchodem na VŠ.", 
-                "warning": "Seminář si lze zapsat pro 3. i 4. ročník.", 
-                "annotation": "Seminář je zaměřen na přípravu k profilové/státní zkoušce z německého jazyka. Příprava se zaměřuje na složení ústní zkoušky (konverzační témata profilové části) a složení státní zkoušky formou DT (poslech, čtení a gramatika). Tento seminář je určen i těm, kteří nakonec z NJ maturovat nebudou, chtějí si však zdokonalit dovenosti v tomto cizím jazyce. Ve 4. ročníku doporučujeme propojení se seminářem Zertifikat Deutsch." 
+                "id": "linoryt", 
+                "title": "Linoryt: Navrhni a potiskni si vlastní tašku",
+                "years": ["NG", "VG"], 
+                "days": ["ST"],
+                "leaderType": "expert",
+                "capacity": "15 studentů",
+                "location": "Učebna výtvarné výchovy",
+                "target": "Zájemci o design, ilustraci, módu a tradiční grafické tiskařské techniky.", 
+                "warning": "Zástěru nebo staré oblečení s sebou. Pokud si přinesete vlastní čisté jednobarevné tričko, můžete si jej v rámci workshopu rovněž potisknout.", 
+                "annotation": "Vyzkoušej si tradiční grafickou techniku a odnes si domů originální autorský kousek do svého šatníku! Na tomto kreativním workshopu se naučíš základy linorytu od skicování až po samotnou tiskařskou praxi. Navrhneš si vlastní motiv, vyřežeš ho rydly do lina a následně si jím potiskneš papír a plátěnou textilní tašku, kterou pak můžeš hrdě nosit venku." 
             },
             { 
-                "id": "ZD", 
-                "code": "ZD", 
-                "title": "Příprava na mezinárodní zkoušku Zertifikat Deutsch B1",
-                "subject": "němčina", 
-                "group": "cizí jazyky", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": true, 
-                "target": "Studenti, kteří uvažují o maturitě z němčiny, i ti, kteří si chtějí prostě jen prohloubit své komunikační dovednosti a získat v jazyce větší jistotu.", 
-                "warning": "Seminář si lze zapsat pro 3. i 4. ročník.", 
-                "annotation": "Seminář zaměřený na všechny čtyři pilíře jazyka – poslech, čtení, psaní i mluvený projev. Pokud budete chtít, tak vás systematicky připraví na složení mezinárodní zkoušky Zertifikat Deutsch na úrovni B1. Účast v semináři je skvělým tréninkem i pro budoucí maturanty z německého jazyka, přičemž samotné složení mezinárodní zkoušky na konci kurzu je dobrovolné." 
+                "id": "atletika", 
+                "title": "Královna sportu: Atletický den na stadionu",
+                "years": ["NG", "VG"], 
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "50 studentů",
+                "location": "Městský atletický stadion Slaný",
+                "target": "Pro aktivní sportovce toužící po překonání limitů, ale i pro naprosté začátečníky, kteří chtějí zažít super pohybové dopoledne.", 
+                "warning": "S sebou sportovní venkovní oblečení, vhodnou obuv na tartanu, dostatek pitné vody a opalovací krém v případě slunečného počasí.", 
+                "annotation": "Otestuj svou fyzickou kondici, vyllaď techniku a zažij dynamické sportovní dopoledne na moderním stadionu. Společně projdeme královské atletické disciplíny – od rychlých sprintů a štafet přes skok daleký i vysoký až po techniku vrhů a hodů. Hlavním cílem je překonat sám sebe a užít si atmosféru profesionálního stadionu v týmu." 
             },
             { 
-                "id": "KRP", 
-                "code": "KRP", 
-                "title": "Kreativní psaní",
-                "subject": "český jazyk a literatura", 
-                "group": "humanitní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Budoucí studenti humanitních oborů, žurnalistiky či scenáristiky, ale i všichni ostatní, kteří chtějí získat jistotu ve stylizaci a vtisknout svým textům osobitý styl.", 
-                "warning": "Seminář si lze zapsat pro 3. i 4. ročník.", 
-                "annotation": "Tento seminář vás provede technikami tvůrčího psaní a naučí vás pracovat s jazykem jako s nástrojem. Nejde jen o suché procvičování funkčních stylů – cílem je najít váš vlastní tvůrčí hlas. Budeme experimentovat s netradičními útvary, objevovat sílu příběhu a učit se, jak pomocí slohových postupů vybudovat atmosféru nebo přesvědčit publikum. Velký důraz klademe na rozvoj stylistiky, která je klíčem k úspěchu u maturity i v budoucím profesním životě." 
+                "id": "laborky", 
+                "title": "Tajemství školních laboratoří s Laborky Girlz",
+                "years": ["NG", "VG"], 
+                "days": ["ČT"],
+                "leaderType": "studentský",
+                "capacity": "25 studentů",
+                "location": "Suterénní laboratoře školy",
+                "target": "Pro zvídavé hlavy, fanoušky chemických reakcí, fyzikálních jevů a tajuplných experimentů.", 
+                "warning": "Bezpečnostní brýle a pláště vám zapůjčíme přímo na místě.", 
+                "annotation": "Sestup do školního podzemí a odhal, co se děje za zavřenými dveřmi! Laborky Girlz tě provedou naší rozsáhlou sklepní základnou. Poodhalí tajemství vědeckých pokusů, které bourají hranice fyziky a chemie, a ty nejlepší, efektní a bezpečné tě samy krok za krokem naučí. Přijď se podívat na moderní vědu z naprosto netradiční a zábavné perspektivy." 
             },
             { 
-                "id": "PAJ", 
-                "code": "PAJ", 
-                "title": "Přípravný seminář k maturitě z anglického jazyka",
-                "subject": "angličtina", 
-                "group": "cizí jazyky", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Studenti, kteří chtějí maturovat z angličtiny a chtějí systematicky pracovat na své slovní zásobě a komunikačních dovednostech v rámci maturitních okruhů.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Seminář se zaměřuje na komplexní přípravu k ústní části profilové maturitní zkoušky z anglického jazyka. Prohlubují se znalosti, dovednosti a kompetence v rámci stanovených maturitních témat (viz seznam na webových stránkách školy). Nedílnou součástí semináře je samostatná práce a příprava." 
-            },
-            { 
-                "id": "SCB", 
-                "code": "SCB", 
-                "title": "Seminář a cvičení z biologie",
-                "subject": "biologie", 
-                "group": "přírodní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Uchazeči o studium medicíny, farmacii, veterinární lékařství či jiné přírodovědné obory. Seminář je vhodný také pro zájemce o studium FTVS a dalších směrů s biologickou tematikou.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Seminář rozšiřuje standardní výuku biologie o hlubší vhled do biologie buněk, genetiky a mikrobiologie a věnuje se zajímavým tématům z říše hub a rostlin, i podle námětů samotných studentů. Součástí druhého pololetí je navíc příprava na maturitní zkoušku: společně dopodrobna probereme pět vybraných okruhů, které si následně vyzkoušíte formou simulovaného zkoušení „nanečisto“. \n Hodnocení - aktivní práce, projekty, seminární práce, zkoušení viz výše.  \n \n V maturitním ročníku se zaměříme na systematizaci znalostí a propojení biologie živočichů, biologie člověka a ekologie. Cílem tohoto semináře není vrstvit další nové učivo, ale vnést řád do všeho, co už znáte, a upevnit pochopení evolučních souvislostí.  \n Hodnocení - testy, zkoušení." 
-            },
-            { 
-                "id": "SCF", 
-                "code": "SCF", 
-                "title": "Seminář a cvičení z fyziky",
-                "subject": "fyzika", 
-                "group": "přírodní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Zájemci o technické obory i uchazeči o studium medicíny.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Seminář zaměřený na praktické pochopení fyzikálních zákonů prostřednictvím experimentů. Naučíte se pokusy provádět, ale také je moderně zpracovávat – od klasického měření až po videoanalýzu pohybu a digitální sběr dat. Je to prostor pro ty, kteří chtějí fyziku vidět v akci a hlouběji porozumět světu kolem nás. \n Ve 4. ročníku je cílem propojit roztříštěné znalosti do uceleného systému a získat jistotu při řešení fyzikálních úloh. Budeme se věnovat systematickému opakování maturitních okruhů, modelovým testům a rozboru složitějších témat z celého středoškolského kurzu fyziky." 
-            },
-            { 
-                "id": "SCH", 
-                "code": "SCH", 
-                "title": "Seminář a cvičení z chemie",
-                "subject": "chemie", 
-                "group": "přírodní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Klíčové pro budoucí lékaře, lékárníky, chemiky, biology, ochránce ŽP, fyzioterapeuty i zájemce o technické a veterinární obory.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Seminář nabízející opakování a přípravu k maturitě z chemie, rozšiřující témata, přípravu na přijímací zkoušky či přímo některé základní zkoušky vysokoškolské. \nVe 3. ročníku se zaměříme na ucelení a prohloubení znalostí z obecné a anorganické chemie. Velký prostor je věnován analytické chemii, a to nejen teoreticky, ale i prakticky – v rámci laboratorních cvičení si osvojíte postupy, které tvoří základ vysokoškolského studia v přírodovědných a technických směrech. \nMaturitní ročník je věnován organické chemii a multidisciplinárním tématům, která propojují chemii s biologií a medicínou. Významná část semináře se soustředí na biochemii a metabolismus živin, což je oblast nezbytná pro studium medicíny a farmacie. Budeme se zabývat i chemií léčiv a vazebnými interakcemi. Seminář nabízí prostor pro systematizaci učiva a obsahuje také cvičné zkoušení z vybraných okruhů, které imituje reálnou maturitní situaci." 
-            },
-            { 
-                "id": "SCI", 
-                "code": "SCI", 
-                "title": "Seminář a cvičení z informatiky",
-                "subject": "informatika", 
-                "group": "přírodní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Zájemci o studium IT oborů, ale i pro zájemce o design, digitální média či technické a přírodovědné směry, kde je digitální gramotnost nezbytností.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Chcete se posunout od pouhého užívání technologií k jejich tvorbě? Tento seminář otevírá dveře do světa vývoje webových aplikací a pokročilé práce s daty. Vedle kódu budeme sledovat i nejnovější trendy v IT a naučíme se, jak se efektivně (a bezpečně) pohybovat v kyberprostoru. \n Maturitní ročník je o propojování souvislostí. V tomto semináři se zaměříme na Python a kromě algoritmizace se budeme věnovat aktuálním výzvám v IT, kritickým otázkám kybernetické bezpečnosti a také tématům, která si sami zvolíte podle svého zájmu (např. AI, analýza dat či automatizace). Seminář slouží jako komplexní příprava k maturitě z informatiky i k přijímacím zkouškám na technické obory." 
-            },
-            { 
-                "id": "SCM", 
-                "code": "SCM", 
-                "title": "Seminář a cvičení z matematiky",
-                "subject": "matematika", 
-                "group": "přírodní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Budoucí studenti technických a ekonomických univerzit i ti, kteří si chtějí upevnit logické základy pro přírodovědné obory (především FYZ).", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Seminář je postaven jako příprava na VŠ: probírají se limity funkce, derivace a integrály. Cílem semináře je pomoci studentům zvládnout první ročník VŠ. Dalším cílem je prohloubení látky z matematiky SŠ a průběžná příprava k maturitě z MAT. Seminář je vhodný pro všechny, kteří chtějí maturovat z fyziky, kde jim bude vysvětleno, jak se matematika ve fyzice využívá." 
-            },
-            { 
-                "id": "PSY", 
-                "code": "PSY", 
-                "title": "Psychologie",
-                "subject": "psychologie", 
-                "group": "humanitní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Budoucí studenti psychologie, pedagogiky, medicíny i dalších humanitních a sociálních oborů.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Seminář nabízející hlubší vhled do tajů lidské psychiky, od základních procesů vnímání a myšlení až po složité otázky osobnosti a sociálních vztahů. Kromě teoretických základů vývojové psychologie a duševního zdraví se věnujeme i praktické aplikaci poznatků. Budeme pracovat s reálnými kazuistikami a diskutovat o tématech, která hýbou současnou společností." 
-            },
-            { 
-                "id": "SVS", 
-                "code": "SVS", 
-                "title": "Společenskovědní seminář",
-                "subject": "základy společenských věd", 
-                "group": "humanitní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Budoucí studenti práv, politologie, mezinárodních vztahů, sociologie, filozofie či žurnalistiky.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Seminář nabízí prostor pro hlubokou sondu do témat, která v běžných hodinách občanského základu nestihneme probrat do detailu. Zaměříme se na fascinující svět světových náboženství, kořeny české filozofie i praktické základy práva a politologie. Seminář je ideální základnou pro všechny, kteří uvažují o studiu práv, politologie, sociologie, filozofie či žurnalistiky. \nVe 4. ročníku se seminář stává platformou pro systematizaci znalostí a přípravu na budoucí vysokoškolské studium. Soustředíme se na propojování souvislostí napříč společenskými vědami a na opakování klíčových maturitních okruhů. Důraz klademe na témata, která se v běžných hodinách 4. ročníku neprobírají, čímž získáte ucelený přehled o celém oboru od antické filozofie až po moderní sociologii." 
-            },
-            { 
-                "id": "SVV", 
-                "code": "SVV", 
-                "title": "Seminář z výtvarné výchovy",
-                "subject": "výtvarná výchova", 
-                "group": "humanitní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Uchazeči o studium architektury, dějin umění, designu, restaurování či estetiky na vysokých školách.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Teoreticko-praktický seminář, který vás nejen posune ve vlastní tvorbě, ale provede vás také klíčovými uměleckými směry a životními osudy významných tvůrců. Budeme společně rozebírat vybraná díla, hledat v nich skryté významy a zasazovat je do historických i filozofických souvislostí. Zaměříme se na syntézu poznatků z dějin umění a jejich uplatnění při přijímacích zkouškách na umělecké a humanitní obory. Sledováním proměn vizuálního jazyka až do současnosti propojíme výtvarné umění s architekturou. Seminář klade důraz na vlastní kreativní práci, schopnost odborné interpretace a budování uceleného přehledu o světovém i českém výtvarném dědictví. " 
-            },
-            { 
-                "id": "SCZ", 
-                "code": "SCZ", 
-                "title": "Seminář a cvičení ze zeměpisu",
-                "subject": "zeměpis", 
-                "group": "přírodní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Zájemci o studium geografie, mezinárodních vztahů či environmentálních věd.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Ve 3. ročníku je tento seminář zaměřen na fenomén cestovního ruchu, který v dnešní globalizované společnosti hraje klíčovou roli. Nejde jen o popisy destinací, ale o pochopení ekonomických, sociálních a environmentálních dopadů turismu. Regionální zeměpis budeme nahlížet právě optikou cestovního ruchu, což vám pomůže pochopit specifika jednotlivých světadílů a regionů v širších souvislostech. Výuka probíhá často formou samostatné či skupinové práce. \n\nVe 4. ročníku se seminář stává intenzivní přípravou na maturitní zkoušku. Soustředíme se na systematizaci a prohloubení témat, která tvoří jádro maturitních otázek, s výjimkou láky probírané v běžných hodinách čtvrtého ročníku. Velký prostor je věnován praktickému nácviku maturitních situací včetně zkoušení z konkrétních okruhů, abyste k maturitnímu stolu usedli s maximální jistotou. " 
-            },
-            { 
-                "id": "KFJ", 
-                "code": "KFJ", 
-                "title": "Konverzace ve francouzském jazyce",
-                "subject": "francouzština", 
-                "group": "cizí jazyky", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Studenti se zájmem o francouzský jazyk a kulturu, kteří chtějí získat jistotu v mluveném projevu. Budoucí maturanti z francouzštiny a zájemci o studium jazyků či mezinárodních vztahů.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Rozmluvte se francouzsky a objevte svět frankofonie. Tento seminář je prvním krokem dvouleté cesty, během které si osvojíte schopnost plynule reagovat v běžných i odbornějších situacích. Zaměříme se na rozšiřování slovní zásoby prostřednictvím aktuálních témat a první pohledy do reálií Francie a dalších francouzsky mluvících zemí. Cílem je odbourat ostych z mluvení a začít používat francouzštinu jako přirozený komunikační nástroj. \n Ve 4. ročníku se systematicky věnujeme maturitním tématům, procvičování argumentace v cizím jazyce a ladění formy pro úspěšné zvládnutí maturitní zkoušky. Důraz klademe na pohotovost, bohatost slovní zásoby a schopnost prezentovat vlastní názory na komplexnější společenská témata." 
-            },
-            { 
-                "id": "SCD", 
-                "code": "SCD", 
-                "title": "Seminář z dějepisu",
-                "subject": "dějepis", 
-                "group": "humanitní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Zájemci o historii, politologii, pedagogiku a další humanitní obory, které vyžadují hlubší znalost historických souvislostí. Uchazeči o studium historie, archivnictví či mezinárodních vztahů.", 
-                "warning": "Pozdější nástup do semináře (až ve 4. ročníku) je možný, ale ne úplně optimální - počítejte s tím, že učivo z předchozího ročníku si budete muset v případě potřeby dostudovat sami.", 
-                "annotation": "Historie není jen soupis dat, ale klíč k pochopení naší současnosti. V prvním pololetí se zaměříme na regionální dějiny našeho kraje, kde budeme objevovat „velké dějiny“ na konkrétních osudech a místech v našem okolí. Druhé pololetí pak věnujeme vybraným kapitolám 20. století, které zásadně zformovaly dnešní svět. Seminář rozvíjí schopnost pracovat s historickými prameny a kriticky hodnotit různé interpretace minulosti. \n Ve 4. ročníku se seminář mění v intenzivní přípravu na maturitu a přijímací zkoušky na vysoké školy. Cílem je propojit znalosti od pravěku až po moderní dějiny do uceleného a logického celku. Budeme se věnovat systematizaci maturitních okruhů, procvičování historické terminologie a tréninku ústního projevu, abyste u zkoušky dokázali suverénně argumentovat v historických souvislostech." 
-            },
-            { 
-                "id": "LS", 
-                "code": "LS", 
-                "title": "Literární seminář",
-                "subject": "český jazyk a literatura", 
-                "group": "humanitní vědy", 
-                "years": ["3. ročník", "4. ročník"], 
-                "isCertificate": false, 
-                "target": "Studenti se zájmem o literaturu, budoucí uchazeči o humanitní obory a všichni, kteří chtějí číst s porozuměním a nadhledem. ", 
-                "warning": "Seminář si lze zapsat pro 3. i 4. ročník.", 
-                "annotation": "Seminář je určen studentům, kteří mají zájem o hlubší poznání literatury a chtějí se lépe připravit na maturitní zkoušku z českého jazyka. Zaměříme se na četbu a interpretaci vybraných literárních děl, diskusi o tématech, postavách, literárních směrech. Vyzkoušítem si různé způsoby práce s textem, naučíte se formulovat vlastní názor na přečtené dílo a procvičíte si dovednosti potřebné k ústní maturitě." 
+                "id": "it-setup", 
+                "title": "Setup IT učeben: Jdeme do finále",
+                "years": ["NG", "VG"], 
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "capacity": "12 studentů",
+                "location": "Nové IT učebny (2. patro)",
+                "target": "Pro technické nadšence, hráče, stavitele počítačů a všechny, kteří se chtějí naučit, jak se navrhuje a fyzicky oživuje moderní IT pracoviště.", 
+                "warning": "Projekt se zaměřuje na reálnou, jemnou manuální i softwarovou práci. Žádné nudné programování na tabuli.", 
+                "annotation": "Chcete se stát architektem moderního IT zázemí naší školy? Na tomto workshopu se pustíme do finální konfigurace a zapojování nových učeben. Naučíš se, jak správně vyřešit organizaci kabelů (cable management), osadit pracovní stanice, zapojit síťové prvky a otestovat celkovou stabilitu zapojení. Odneseš si cenné triky, které uplatníš při stavbě vlastního setupu doma." 
             }
- ];
+        ];
 
         const App = () => {
-            const [selectedSeminar, setSelectedSeminar] = useState(null);
+            const [selectedProject, setSelectedProject] = useState(null);
             const [searchQuery, setSearchQuery] = useState("");
             const [yearFilter, setYearFilter] = useState("all");
-            const [groupFilter, setGroupFilter] = useState("all");
+            const [dayFilter, setDayFilter] = useState("all");
+            const [showInfoModal, setShowInfoModal] = useState(false);
 
-            const formUrl = "https://forms.gle/XbpCdwsuNA7FazwN6";
+            // Reálný URL odkaz pro spuštění přihlašování
+            const formUrl = "https://forms.gle/5Z218Ee3Lh69Tfu17"; 
 
-            // 1. FILTRACE DAT (Hledání + Ročník + Skupina)
-            const filteredSeminars = useMemo(() => {
-                return SEMINARS_DATA.filter(s => {
-                    const matchesSearch = s.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                                        s.subject.toLowerCase().includes(searchQuery.toLowerCase());
-                    const matchesYear = yearFilter === "all" || s.years.some(y => y.includes(yearFilter));
-                    const matchesGroup = groupFilter === "all" || s.group === groupFilter;
-                    return matchesSearch && matchesYear && matchesGroup;
+            const filteredProjects = useMemo(() => {
+                return PROJECTS_DATA.filter(p => {
+                    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                        p.annotation.toLowerCase().includes(searchQuery.toLowerCase());
+                    const matchesYear = yearFilter === "all" || p.years.includes(yearFilter);
+                    const matchesDay = dayFilter === "all" || p.days.includes(dayFilter);
+                    return matchesSearch && matchesYear && matchesDay;
                 });
-            }, [searchQuery, yearFilter, groupFilter]);
+            }, [searchQuery, yearFilter, dayFilter]);
 
-            // 2. SEZNAM SKUPIN (pro tlačítka nahoře)
-            const groups = useMemo(() => {
-                const uniqueGroups = Array.from(new Set(SEMINARS_DATA.map(s => s.group)));
-                uniqueGroups.sort((a, b) => a.localeCompare('cs', { sensitivity: 'base' }));
-                return ["all", ...uniqueGroups];
-            }, []);
+            // Stylování a barevné odlišení jednotlivých tagů
+            const getYearTagStyle = (year) => {
+                return year === "NG" 
+                    ? "bg-emerald-50 text-emerald-700 border-emerald-200/80 font-bold" 
+                    : "bg-indigo-50 text-indigo-700 border-indigo-200/80 font-bold";
+            };
 
-            // 3. SEZNAM PŘEDMĚTŮ (seřazený podle vašeho seznamu)
-            const subjects = useMemo(() => {
-                const rawSubjects = [...new Set(filteredSeminars.map(s => s.subject))];
-                return rawSubjects.sort((a, b) => {
-                    const poradi = [
-                        "angličtina", "biologie", "český jazyk a literatura", "dějepis",
-                        "francouzština", "fyzika", "chemie", "informatika", "matematika",
-                        "němčina", "psychologie", "výtvarná výchova", "základy společenských věd", "zeměpis"
-                    ];
-                    return poradi.indexOf(a) - poradi.indexOf(b);
-                });
-            }, [filteredSeminars]);
+            const getDayTagStyle = (day) => {
+                return day === "ST"
+                    ? "bg-orange-50 text-orange-700 border-orange-200 font-bold"
+                    : "bg-sky-50 text-sky-700 border-sky-200 font-bold";
+            };
+
+            const getLeaderTypeTagStyle = (type) => {
+                switch(type) {
+                    case "studentský":
+                        return "bg-pink-50 text-pink-700 border-pink-200/60 font-semibold";
+                    case "expert":
+                        return "bg-yellow-50 text-amber-800 border-yellow-300 font-extrabold flex items-center gap-1";
+                    default:
+                        return "";
+                }
+            };
+
+            const getLeaderTypeLabel = (type) => {
+                switch(type) {
+                    case "studentský": return "Studentský projekt";
+                    case "expert": return "🛡️ Expert z praxe";
+                    default: return "";
+                }
+            };
 
             return (
-                <div className="min-h-screen bg-slate-50">
-                    <header className="bg-white border-b sticky top-0 z-30 shadow-sm px-4 py-6">
+                <div className="min-h-screen bg-teal-50/20 text-slate-800">
+                    
+                    {/* Hlavička s logem v tyrkysově-žlutém barevném schématu */}
+                    <header className="bg-gradient-to-r from-brand-dark via-brand-medium to-brand-cyan text-white sticky top-0 z-30 shadow-lg px-4 py-5 border-b border-brand-light/30">
                         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                            <div className="flex items-center gap-4">
-                                <div className="bg-indigo-600 p-2 rounded-xl text-white">
-                                    <Icon name="graduation-cap" className="w-6 h-6" />
+                            <div className="flex items-center gap-4 w-full justify-center md:justify-start">
+                                <div className="bg-brand-yellow p-2.5 rounded-2xl text-teal-950 shadow-md flex items-center justify-center animate-pulse">
+                                    <Icon name="sparkles" className="w-6 h-6 stroke-[2.5]" />
                                 </div>
-                                <div>
-                                    <h1 className="text-xl font-black uppercase tracking-tight text-left">Katalog seminářů 26/27</h1>
-                                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest text-left">Gymnázium Slaný</p>
+                                <div className="text-left">
+                                    <h1 className="text-2xl font-black uppercase tracking-tight leading-none text-white flex items-center gap-2">
+                                        PROJEKTOVÉ DNY <span className="text-brand-yellow">2026</span>
+                                    </h1>
+                                    <p className="text-xs text-teal-100 font-bold uppercase tracking-widest mt-1">Gymnázium Slaný • Katalog nabídek</p>
                                 </div>
-                            </div>
-                            <div className="flex gap-2 w-full md:w-auto">
-                                <input 
-                                    className="flex-grow md:w-64 px-4 py-2 bg-slate-100 rounded-xl outline-none focus:ring-2 ring-indigo-500/20 font-medium"
-                                    placeholder="Hledat..."
-                                    value={searchQuery}
-                                    onChange={e => setSearchQuery(e.target.value)}
-                                />
-                                <select 
-                                    className="px-4 py-2 bg-white border rounded-xl font-bold text-sm"
-                                    value={yearFilter}
-                                    onChange={e => setYearFilter(e.target.value)}
-                                >
-                                    <option value="all">Všechny ročníky</option>
-                                    <option value="3.">3. ročník</option>
-                                    <option value="4.">4. ročník</option>
-                                </select>
                             </div>
                         </div>
                     </header>
 
+                    {/* Hlavní obsahová část */}
                     <main className="max-w-6xl mx-auto px-4 py-8">
-                        <div className="bg-indigo-900 rounded-3xl p-8 mb-12 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6">
-                            <div className="text-center md:text-left text-white font-black uppercase">
-                                <h3 className="text-2xl mb-1">Máš už vybráno?</h3>
-                                <p className="text-indigo-200 text-sm tracking-wide">Přejdi k odeslání volby přes tlačítko vpravo.</p>
-                            </div>
-                            <a href={formUrl} target="_blank" className="bg-emerald-500 hover:bg-emerald-400 text-white px-10 py-5 rounded-2xl font-black shadow-lg transition-all hover:scale-105 flex items-center gap-3 uppercase tracking-wider">
-                                <span>CHCI SE ZAPSAT</span>
-                                <Icon name="chevron-right" className="w-6 h-6" />
-                            </a>
-                        </div>
-
-                        <div className="flex overflow-x-auto gap-2 mb-10 pb-2 scrollbar-hide">
-                            {groups.map(g => (
-                                <button 
-                                    key={g} 
-                                    onClick={() => setGroupFilter(g)}
-                                    className={`px-4 py-2 rounded-full text-[10px] font-black transition-all whitespace-nowrap border-2 uppercase ${groupFilter === g ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-400 border-slate-200'}`}
-                                >
-                                    {g === "all" ? "Všechny skupiny" : g}
-                                </button>
-                            ))}
-                        </div>
-
-                        {subjects.map(subject => (
-                            <div key={subject} className="mb-12">
-                                <h2 className="text-2xl font-black text-slate-800 mb-6 uppercase border-l-4 border-indigo-600 pl-4 text-left">{subject}</h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {filteredSeminars.filter(s => s.subject === subject).map(s => (
-                                        <div 
-                                            key={s.id} 
-                                            onClick={() => setSelectedSeminar(s)}
-                                            className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer flex flex-col group"
-                                        >
-                                            <div className="flex justify-between items-start mb-4">
-                                                <span className="bg-indigo-50 text-indigo-700 text-[10px] font-black px-2 py-1 rounded uppercase tracking-tighter">{s.code}</span>
-                                                <div className="flex gap-1">
-                                                    {s.years.map(y => <span key={y} className="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-1 rounded">{y}</span>)}
-                                                </div>
-                                            </div>
-                                            <h4 className="font-bold text-lg mb-3 leading-tight group-hover:text-indigo-600 transition-colors text-left">{s.title}</h4>
-                                            <p className="text-slate-500 text-sm line-clamp-3 text-left">{s.annotation}</p>
-                                            <div className="mt-auto pt-4 flex items-center text-indigo-500 text-[10px] font-black uppercase tracking-widest gap-2">
-                                                Zobrazit podrobnosti <Icon name="arrow-right" className="w-3 h-3" />
-                                            </div>
-                                        </div>
-                                    ))}
+                        
+                        {}
+                        {/* Vstupní informační banner (vysvětlující postup přihlašování) */}
+                        <div className="bg-gradient-to-br from-brand-dark via-teal-800 to-brand-cyan text-white rounded-3xl p-6 md:p-8 mb-8 shadow-xl border border-brand-light/20 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-yellow/10 rounded-full blur-3xl -z-10"></div>
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                                <div className="text-left space-y-2">
+                                    <span className="bg-brand-yellow/20 text-brand-yellow text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest inline-block border border-brand-yellow/30">
+                                        PŘÍPRAVNÁ FÁZE
+                                    </span>
+                                    <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Prohlédni si nabídku včas!</h3>
+                                    <p className="text-teal-50 text-sm md:text-base max-w-2xl leading-relaxed">
+                                        Přihlašování bude spuštěno <strong>v neděli v 18:00</strong>. Tento čas jsme zvolili jako nejlepší kompromis – záměrně se vyhýbáme pátku, kdy řada z vás odjíždí na víkend mimo domov, i pondělí, kdy odjíždějí další školní skupiny. Nyní máš dostatek času projít si v klidu všechny workshopy bez stresu z rychlého klikání.
+                                    </p>
+                                </div>
+                                <div className="bg-teal-950/40 p-5 rounded-2xl border border-brand-light/10 w-full md:w-auto text-left min-w-[240px]">
+                                    <h4 className="text-xs font-black uppercase text-brand-yellow tracking-widest mb-2 flex items-center gap-1.5">
+                                        <Icon name="clock" className="w-3.5 h-3.5 text-brand-yellow animate-bounce" /> OTEVŘENÍ ZÁPISU
+                                    </h4>
+                                    <p className="text-xl font-black text-white uppercase tracking-wider">NEDĚLE V 18:00</p>
+                                    <p className="text-[11px] text-teal-200 mt-1 font-semibold">Odkaz na formulář bude aktivován přesně v tento čas.</p>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Elegantní ovládací panel s filtry přímo nad kartami projektů */}
+                        <div className="bg-white rounded-2xl p-4 md:p-5 mb-8 border border-teal-100/80 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+                            {/* Vyhledávání */}
+                            <div className="relative w-full md:w-80">
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-teal-600/60">
+                                    <Icon name="search" className="w-4 h-4" />
+                                </span>
+                                <input 
+                                    className="w-full pl-10 pr-4 py-2.5 bg-teal-50/20 text-slate-800 placeholder-slate-400 rounded-xl outline-none focus:ring-2 focus:ring-brand-medium border border-teal-100 font-medium text-sm transition-smooth"
+                                    placeholder="Hledat projekt..."
+                                    value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)}
+                                />
+                            </div>
+
+                            {/* Filtry třídy a dne konání */}
+                            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto justify-end">
+                                {/* Filtr: Třída */}
+                                <div className="flex flex-col w-full sm:w-[170px]">
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Cílová skupina / Třída</label>
+                                    <select 
+                                        className="w-full px-3 py-2.5 bg-teal-50/10 text-slate-700 border border-teal-100 rounded-xl font-bold text-xs uppercase tracking-wider focus:ring-2 focus:ring-brand-medium outline-none cursor-pointer transition-smooth"
+                                        value={yearFilter}
+                                        onChange={e => setYearFilter(e.target.value)}
+                                    >
+                                        <option value="all">Třídy: Všechny</option>
+                                        <option value="NG">Jen nižší gym. [NG]</option>
+                                        <option value="VG">Jen vyšší gym. [VG]</option>
+                                    </select>
+                                </div>
+
+                                {/* Filtr: Den */}
+                                <div className="flex flex-col w-full sm:w-[170px]">
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Den konání</label>
+                                    <select 
+                                        className="w-full px-3 py-2.5 bg-teal-50/10 text-slate-700 border border-teal-100 rounded-xl font-bold text-xs uppercase tracking-wider focus:ring-2 focus:ring-brand-medium outline-none cursor-pointer transition-smooth"
+                                        value={dayFilter}
+                                        onChange={e => setDayFilter(e.target.value)}
+                                    >
+                                        <option value="all">Dny: Všechny</option>
+                                        <option value="ST">Středa [ST]</option>
+                                        <option value="ČT">Čtvrtek [ČT]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Seznam a mřížka s kartami projektů */}
+                        {filteredProjects.length === 0 ? (
+                            <div className="bg-white rounded-3xl p-16 text-center shadow-sm border border-teal-100 max-w-md mx-auto my-12">
+                                <div className="bg-teal-50 text-brand-medium w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <Icon name="search" className="w-8 h-8" />
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-800 mb-1">Žádné projekty nenalezeny</h3>
+                                <p className="text-slate-500 text-sm">Zkuste upravit vyhledávání nebo změnit nastavené filtry.</p>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {filteredProjects.map(p => (
+                                    <div 
+                                        key={p.id} 
+                                        onClick={() => setSelectedProject(p)}
+                                        className="bg-white p-6 rounded-2xl border border-teal-100/60 shadow-sm hover:shadow-xl hover:scale-[1.01] hover:border-brand-medium/40 transition-smooth cursor-pointer flex flex-col justify-between group relative overflow-hidden text-left"
+                                    >
+                                        {/* Levá tyrkysová linka pro vizuální oživení */}
+                                        <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-brand-medium"></div>
+
+                                        <div>
+                                            <div className="flex justify-between items-start mb-3 pl-1 flex-wrap gap-2">
+                                                {/* Dny konání */}
+                                                <div className="flex gap-1 items-center flex-wrap">
+                                                    {p.days.map(d => (
+                                                        <span key={d} className={`text-[10px] px-2 py-0.5 rounded-md border ${getDayTagStyle(d)}`}>
+                                                            {d}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                                {/* Třídy / Ročník (Zelený / Modrý Tag) */}
+                                                <div className="flex gap-1">
+                                                    {p.years.map(y => (
+                                                        <span key={y} className={`text-[10px] px-2 py-0.5 rounded-md border ${getYearTagStyle(y)}`}>
+                                                            {y}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            {/* Druhý řádek tagů: Pouze studentský nebo expert z praxe */}
+                                            {(p.leaderType === "studentský" || p.leaderType === "expert") && (
+                                                <div className="flex flex-wrap gap-1.5 pl-1 mb-3">
+                                                    <span className={`text-[9px] px-2 py-0.5 rounded border uppercase tracking-wider ${getLeaderTypeTagStyle(p.leaderType)}`}>
+                                                        {getLeaderTypeLabel(p.leaderType)}
+                                                    </span>
+                                                </div>
+                                            )}
+
+                                            <h3 className="font-extrabold text-lg text-slate-900 mb-3 leading-snug group-hover:text-brand-medium transition-colors pl-1">
+                                                {p.title}
+                                            </h3>
+                                            
+                                            <p className="text-slate-500 text-sm line-clamp-3 leading-relaxed mb-4 pl-1">
+                                                {p.annotation}
+                                            </p>
+                                        </div>
+
+                                        {/* Spodní kapacita na kartě */}
+                                        <div className="mt-auto pt-4 border-t border-teal-50 flex items-center justify-end text-xs text-slate-400 pl-1">
+                                            <span className="flex items-center gap-1 font-extrabold text-teal-800 bg-teal-50 px-2.5 py-1 rounded text-[10px] uppercase">
+                                                <Icon name="users" className="w-3 h-3 text-brand-medium" /> {p.capacity}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </main>
 
-                    {selectedSeminar && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" onClick={() => setSelectedSeminar(null)}>
-                            <div className="bg-white w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative" onClick={e => e.stopPropagation()}>
-                                <button onClick={() => setSelectedSeminar(null)} className="absolute top-6 right-6 p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors">
+                    {/* Detailní modální okno pro vybraný projekt */}
+                    {selectedProject && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-teal-950/70 backdrop-blur-sm transition-smooth" onClick={() => setSelectedProject(null)}>
+                            <div 
+                                className="bg-white w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative animate-scale-in" 
+                                onClick={e => e.stopPropagation()}
+                            >
+                                {/* Zavírací tlačítko */}
+                                <button 
+                                    onClick={() => setSelectedProject(null)} 
+                                    className="absolute top-6 right-6 p-2 bg-teal-50 rounded-full hover:bg-teal-100 text-teal-800 hover:text-teal-950 transition-smooth"
+                                >
                                     <Icon name="x" className="w-5 h-5" />
                                 </button>
                                 
-                                <div className="p-8 md:p-12">
-                                    <div className="flex items-center gap-3 mb-6">
-                                        <span className="bg-indigo-600 text-white text-xs font-black px-3 py-1 rounded-full uppercase tracking-widest">{selectedSeminar.code}</span>
-                                        <span className="text-slate-400 font-bold uppercase text-xs tracking-widest">{selectedSeminar.group}</span>
+                                <div className="p-6 md:p-10 text-left">
+                                    {/* Horní badge a tagy v modálu */}
+                                    <div className="flex flex-wrap items-center gap-2 mb-4">
+                                        {selectedProject.days.map(d => (
+                                            <span key={d} className={`text-xs px-2.5 py-1 rounded-full border ${getDayTagStyle(d)}`}>
+                                                Den: {d === "ST" ? "Středa" : "Čtvrtek"} ({d})
+                                            </span>
+                                        ))}
+                                        {(selectedProject.leaderType === "studentský" || selectedProject.leaderType === "expert") && (
+                                            <span className={`text-xs px-2.5 py-1 rounded-full border uppercase tracking-wider ${getLeaderTypeTagStyle(selectedProject.leaderType)}`}>
+                                                {getLeaderTypeLabel(selectedProject.leaderType)}
+                                            </span>
+                                        )}
                                     </div>
-                                    <h2 className="text-3xl font-[900] leading-tight text-slate-900 mb-6 uppercase tracking-tight text-left">{selectedSeminar.title}</h2>
-                                    <div className="space-y-6">
-                                        <div>
-                                            <h5 className="text-[10px] font-black uppercase text-indigo-500 mb-2 tracking-widest text-left">Anotace</h5>
-                                            <p className="text-slate-600 leading-relaxed font-medium text-left whitespace-pre-line">{selectedSeminar.annotation}</p>
+                                    
+                                    {/* Titulek */}
+                                    <h2 className="text-2xl md:text-3xl font-black leading-tight text-slate-900 mb-6 uppercase tracking-tight">
+                                        {selectedProject.title}
+                                    </h2>
+                                    
+                                    {/* Informační mřížka s parametry */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-teal-50/40 rounded-2xl mb-6 border border-teal-100/50">
+                                        <div className="space-y-0.5">
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Kapacita</span>
+                                            <span className="text-sm font-extrabold text-teal-950 block">{selectedProject.capacity}</span>
                                         </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-slate-100">
-                                            <div>
-                                                <h5 className="text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest text-left">Pro koho je určen</h5>
-                                                <p className="text-sm font-bold text-slate-700 text-left">{selectedSeminar.target}</p>
+                                        <div className="space-y-0.5">
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Určeno pro</span>
+                                            <div className="flex gap-1 mt-0.5">
+                                                {selectedProject.years.map(y => (
+                                                    <span key={y} className={`text-[10px] px-1.5 py-0.2 rounded border ${getYearTagStyle(y)}`}>
+                                                        {y}
+                                                    </span>
+                                                ))}
                                             </div>
-                                            {selectedSeminar.warning && (
-                                                <div className="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-left">
-                                                    <h5 className="text-[10px] font-black uppercase text-amber-600 mb-1 tracking-widest flex items-center gap-2">
-                                                        <Icon name="alert-circle" className="w-3 h-3" /> Poznámka
-                                                    </h5>
-                                                    <p className="text-sm italic text-amber-900 leading-tight">{selectedSeminar.warning}</p>
-                                                </div>
-                                            )}
                                         </div>
+                                        <div className="space-y-0.5">
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Lokalita</span>
+                                            <span className="text-sm font-extrabold text-teal-950 block truncate" title={selectedProject.location}>
+                                                {selectedProject.location}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Popisy */}
+                                    <div className="space-y-5">
+                                        <div>
+                                            <h5 className="text-[10px] font-black uppercase text-brand-medium mb-1.5 tracking-widest flex items-center gap-1">
+                                                <Icon name="align-left" className="w-3 h-3 text-brand-medium" /> Anotace projektu
+                                            </h5>
+                                            <p className="text-slate-600 leading-relaxed font-medium text-sm md:text-base">
+                                                {selectedProject.annotation}
+                                            </p>
+                                        </div>
+                                        
+                                        <div>
+                                            <h5 className="text-[10px] font-black uppercase text-slate-400 mb-1 tracking-widest">Pro koho je projekt ideální?</h5>
+                                            <p className="text-sm font-semibold text-slate-700">
+                                                {selectedProject.target}
+                                            </p>
+                                        </div>
+
+                                        {selectedProject.warning && (
+                                            <div className="bg-yellow-50 p-4 rounded-2xl border border-yellow-200 text-left">
+                                                <h5 className="text-[11px] font-black uppercase text-amber-600 mb-1 tracking-widest flex items-center gap-2">
+                                                    <Icon name="alert-triangle" className="w-3.5 h-3.5 text-amber-500" /> Důležité upozornění
+                                                </h5>
+                                                <p className="text-xs italic text-amber-950 leading-relaxed">
+                                                    {selectedProject.warning}
+                                                </p>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                                <div className="bg-slate-50 p-6 flex justify-center items-center border-t">
-                                    <button onClick={() => setSelectedSeminar(null)} className="bg-slate-200 text-slate-600 px-8 py-3 rounded-xl font-black uppercase text-xs hover:bg-slate-300 transition-all tracking-widest">Zavřít detail</button>
+                                
+                                <div className="bg-teal-50/30 p-6 flex justify-end items-center border-t border-teal-50 gap-3">
+                                    <button 
+                                        onClick={() => setSelectedProject(null)} 
+                                        className="bg-slate-200 text-slate-600 px-6 py-2.5 rounded-xl font-bold uppercase text-xs hover:bg-slate-300 transition-smooth tracking-wider"
+                                    >
+                                        Zavřít detail
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     )}
 
+                    {}
+                    {/* Bezpečná náhrada za standardní alert() okno */}
+                    {showInfoModal && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-teal-950/75 backdrop-blur-sm transition-smooth" onClick={() => setShowInfoModal(false)}>
+                            <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl relative animate-scale-in" onClick={e => e.stopPropagation()}>
+                                <div className="bg-yellow-100 text-yellow-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <Icon name="clock" className="w-8 h-8" />
+                                </div>
+                                <h3 className="text-xl font-black uppercase text-teal-950 mb-3">Spouštíme v neděli v 18:00</h3>
+                                <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                                    Nyní probíhá pouze fáze čtení katalogu a klidného výběru. Zápis se otevře v neděli v 18:00, abychom zaručili, že nikdo nebude znevýhodněn kvůli pátečnímu nebo pondělnímu cestování.
+                                </p>
+                                <button 
+                                    onClick={() => setShowInfoModal(false)}
+                                    className="w-full bg-brand-medium hover:bg-brand-dark text-white font-bold py-3 px-6 rounded-2xl transition-smooth uppercase text-xs tracking-wider shadow-lg"
+                                >
+                                    Rozumím, pokračovat v prohlížení
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Plovoucí tlačítko na přihlášení */}
                     <div className="fixed bottom-8 right-8 z-40">
-                        <a href={formUrl} target="_blank" className="bg-emerald-500 text-white w-14 h-14 md:w-auto md:px-6 rounded-full shadow-2xl hover:bg-emerald-600 transition-all flex items-center justify-center gap-3 group">
-                            <Icon name="pen-line" className="w-6 h-6" />
-                            <span className="hidden md:block font-black uppercase text-xs tracking-widest">Zápis seminářů</span>
-                        </a>
+                        <button 
+                            onClick={() => setShowInfoModal(true)}
+                            className="bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-6 py-3.5 rounded-full shadow-2xl transition-smooth flex items-center justify-center gap-2 group border border-teal-400/20"
+                        >
+                            <Icon name="pen-tool" className="w-5 h-5" />
+                            <span className="font-black uppercase text-xs tracking-widest">Spustit přihlašování</span>
+                        </button>
                     </div>
 
-                    <footer className="max-w-6xl mx-auto px-4 py-12 border-t text-center">
-                        <p className="text-slate-400 text-xs font-black uppercase tracking-[0.3em] mb-4">Gymnázium Slaný 2026/27</p>
+                    {/* Patička webu */}
+                    <footer className="max-w-6xl mx-auto px-4 py-12 border-t border-teal-100 text-center mt-12">
+                        <p className="text-slate-400 text-xs font-black uppercase tracking-[0.3em] mb-2">Gymnázium Slaný • Projektové dny 2026</p>
+                        <p className="text-slate-400 text-[10px]">Navrženo pro rychlou, stabilní a estetickou organizaci přihlašování.</p>
                     </footer>
                 </div>
             );
