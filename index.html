@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Katalog Projektových Dnů 2026 | Gymnázium Slaný</title>
-    <!-- Načtení Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -114,7 +113,7 @@
                 "capacity": "40 studentů",
                 "location": "Areál a zahrada školy",
                 "target": "Pro každého, kdo se nechce jen biflovat teorii z knížek, ale chce získat skutečné sebevědomí pro záchranu lidského života.", 
-                "warning": "Situace a zranění budou velmi realisticky namaskována umělou krví a líčením pro maximální autentičnost zážitku.", 
+                "warning": "Situace and zranění budou velmi realisticky namaskována umělou krví a líčením pro maximální autentičnost zážitku.", 
                 "annotation": "Chcete vědět, jak správně zachovat chladnou hlavu, když jde v reálném životě do tuhého? Žádná nudná teorie v lavicích. Tvoji starší spolužáci v roli figurantů připraví po celém areálu školy krizová stanoviště s věrohodně namaskovanými zraněními, autonehodami a kolapsovými stavy. Celý okruh si projdeš v roli aktivního zachránce a odneseš si neprůstřelnou praktickou zkušenost." 
             },
             { 
@@ -175,21 +174,24 @@
             const [showInfoModal, setShowInfoModal] = useState(false);
 
             // Reálný URL odkaz pro spuštění přihlašování
-            const formUrl = "https://forms.gle/5Z218Ee3Lh69Tfu17"; 
+            const formUrl = "https://forms.gle/5Z218Ee3Lh69Tfu17";
 
             const handleApply = () => {
-    // Nastavíme přesný čas spuštění: 14. června 2026 v 18:00
-    const launchTime = new Date('2026-06-14T18:00:00');
-    const currentTime = new Date();
+                const launchTime = new Date('2026-06-14T18:00:00');
+                const closeTime = new Date('2026-06-18T08:00:00');
+                const currentTime = new Date();
 
-    if (currentTime < launchTime) {
-        // Ještě není 18:00 -> Ukážeme stopku (otevře se info modal)
-        setShowInfoModal(true);
-    } else {
-        // Už je po 18:00 -> Otevřeme rovnou Google Formulář v nové záložce
-        window.open(formUrl, '_blank');
-    }
-};
+                if (currentTime < launchTime) {
+                    // FÁZE 1: Ještě se nespustilo -> Info okno
+                    setShowInfoModal(true);
+                } else if (currentTime >= closeTime) {
+                    // FÁZE 3: Už skončilo -> Uzamčené okno
+                    setShowInfoModal(true);
+                } else {
+                    // FÁZE 2: Právě běží -> Přesměrování na formulář
+                    window.open(formUrl, '_blank');
+                }
+            };
 
             const filteredProjects = useMemo(() => {
                 return PROJECTS_DATA.filter(p => {
@@ -244,7 +246,7 @@
                                     <Icon name="sparkles" className="w-6 h-6 stroke-[2.5]" />
                                 </div>
                                 <div className="text-left">
-                                    <h1 className="text-2xl font-black uppercase tracking-tight leading-none text-white flex items-center gap-2">
+                                    <h1 className="text-2xl font-black uppercase tracking-wider leading-none text-white flex items-center gap-2">
                                         PROJEKTOVÉ DNY <span className="text-brand-yellow">2026</span>
                                     </h1>
                                     <p className="text-xs text-teal-100 font-bold uppercase tracking-widest mt-1">Gymnázium Slaný • Katalog nabídek</p>
@@ -256,17 +258,20 @@
                     {/* Hlavní obsahová část */}
                     <main className="max-w-6xl mx-auto px-4 py-8">
                         
-                        {}
-                {/* Vstupní informační banner (vysvětlující postup přihlašování) */}
+                        {/* Vstupní informační banner (vysvětlující postup přihlašování) */}
                         <div className="bg-gradient-to-br from-brand-dark via-teal-800 to-brand-cyan text-white rounded-3xl p-6 md:p-8 mb-8 shadow-xl border border-brand-light/20 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-yellow/10 rounded-full blur-3xl -z-10"></div>
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                                 
                                 <div className="text-left space-y-3">
-                                    {/* AUTOMATICKÝ ŠTÍTEK PODLE ČASU */}
+                                    {/* 1., 2. a 3. AUTOMATICKÝ ŠTÍTEK PODLE ČASU */}
                                     {new Date() < new Date('2026-06-14T18:00:00') ? (
                                         <span className="bg-brand-yellow/20 text-brand-yellow text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest inline-block border border-brand-yellow/30">
                                             PŘÍPRAVNÁ FÁZE
+                                        </span>
+                                    ) : new Date() >= new Date('2026-06-18T08:00:00') ? (
+                                        <span className="bg-slate-700 text-slate-300 text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-widest inline-block border border-slate-600 shadow-sm">
+                                            🔒 ZÁPIS UZAVŘEN
                                         </span>
                                     ) : (
                                         <span className="bg-emerald-500 text-white text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-widest inline-block border border-emerald-400 shadow-sm animate-pulse">
@@ -274,7 +279,7 @@
                                         </span>
                                     )}
 
-                                    {/* AUTOMATICKÝ TEXT BANNERU PODLE ČASU */}
+                                    {/* 1., 2. a 3. AUTOMATICKÝ TEXT BANNERU PODLE ČASU */}
                                     {new Date() < new Date('2026-06-14T18:00:00') ? (
                                         <>
                                             <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider leading-snug">Prohlédni si nabídku v klidu</h3>
@@ -282,6 +287,15 @@
                                                 <p><strong>Přihlašování bude spuštěno v neděli 14. června v 18:00.</strong></p>
                                                 <p>Záměrně se vyhýbáme pátku, kdy se nám některé skupiny vrací ze svých výprav a řada z vás odjíždí na víkend mimo domov. Nechtěli jsme ani pondělí, kdy zase jiné školní skupiny odjíždějí.</p>
                                                 <p><strong>Nyní máš dostatek času</strong> projít si v klidu celou nabídku, pročíst anotace jednotlivých projektů and probrat nejlepší kombinace se spolužáky.</p>
+                                            </div>
+                                        </>
+                                    ) : new Date() >= new Date('2026-06-18T08:00:00') ? (
+                                        <>
+                                            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider leading-snug text-slate-300">Přihlašování ukončeno</h3>
+                                            <div className="text-teal-50 text-sm md:text-base max-w-2xl leading-relaxed space-y-4 mt-2 tracking-wide">
+                                                <p><strong>Katalog projektů je nyní uzavřen pro zápis.</strong></p>
+                                                <p>Všechny odeslané odpovědi byly bezpečně uloženy. Systém momentálně zpracovává data pro rozřazení do finálních projektových týmů. Seznamy budou včas zveřejněny.</p>
+                                                <p>Děkujeme všem studentům za včasné vyplnění přihlášek!</p>
                                             </div>
                                         </>
                                     ) : (
@@ -296,9 +310,9 @@
                                     )}
                                 </div>
 
-                               {/* AUTOMATICKÝ PRAVÝ BOX PODLE ČASU */}
+                               {/* 1., 2. a 3. AUTOMATICKÝ PRAVÝ BOX PODLE ČASU */}
                                 {new Date() < new Date('2026-06-14T18:00:00') ? (
-                                    /* BOX DO NEDĚLE 18:00 (ODČÍTÁNÍ) */
+                                    /* FÁZE 1: BOX DO NEDĚLE 18:00 (PŘÍPRAVA) */
                                     <div className="bg-teal-950/40 p-6 rounded-2xl border border-brand-light/10 w-full md:w-auto text-left min-w-[260px] min-h-[140px] flex flex-col justify-center">
                                         <h4 className="text-xs font-black uppercase text-brand-yellow tracking-widest mb-2 flex items-center gap-1.5">
                                             <Icon name="clock" className="w-3.5 h-3.5 text-brand-yellow animate-bounce" /> OTEVŘENÍ ZÁPISU
@@ -306,19 +320,34 @@
                                         <p className="text-xl font-black text-white uppercase tracking-widest leading-none">NEDĚLE V 18:00</p>
                                         <p className="text-[11px] text-teal-200 mt-2 font-semibold leading-relaxed tracking-wide">Odkaz na formulář bude aktivován přesně v tento čas.</p>
                                     </div>
+                                ) : new Date() >= new Date('2026-06-18T08:00:00') ? (
+                                    /* FÁZE 3: BOX OD ČTVRTKA 8:00 RÁNO (UZAVŘENO) */
+                                    <div className="bg-slate-950/50 p-6 rounded-2xl border border-slate-600/30 w-full md:w-auto text-left min-w-[260px] min-h-[140px] flex flex-col justify-center space-y-2">
+                                        <h4 className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-1.5">
+                                            <Icon name="lock" className="w-3.5 h-3.5 text-slate-400" /> STAV ZÁPISU
+                                        </h4>
+                                        <p className="text-xl font-black text-slate-400 uppercase tracking-widest leading-none">UZAVŘENO</p>
+                                        <p className="text-[12px] text-slate-300 font-medium leading-relaxed tracking-wide pt-1">
+                                            Konec registrací nastal ve čtvrtek 18. 6. v 8:00 ráno.
+                                        </p>
+                                    </div>
                                 ) : (
-                                    /* BOX OD NEDĚLE 18:00 DÁL (SPUŠTĚNO S TERMÍNEM KONCE) */
+                                    /* FÁZE 2: BOX MEZI NEDĚLÍ A ČTVRTKEM (BĚŽÍ S PRODLUŽENÝM ŘÁDKOVÁNÍM) */
                                     <div className="bg-emerald-950/60 p-6 rounded-2xl border border-emerald-500/30 w-full md:w-auto text-left min-w-[260px] min-h-[140px] flex flex-col justify-center space-y-2">
+                                        <h4 className="text-xs font-black uppercase text-emerald-400 tracking-widest flex items-center gap-1.5">
+                                            <Icon name="check-circle" className="w-3.5 h-3.5 text-emerald-400" /> STAV ZÁPISU
+                                        </h4>
                                         <p className="text-xl font-black text-emerald-400 uppercase tracking-widest leading-none">PŘIHLAŠOVÁNÍ BĚŽÍ</p>
                                         <p className="text-[12px] text-emerald-100 font-medium leading-loose tracking-wide pt-1">
                                             Čas máš do:<br />
-                                            <strong className="text-white text-sm tracking-wider block mt-1">ČTVRTKA 18. ČERVNA<br />8:00 RÁNO</strong>
+                                            <strong className="text-white text-sm tracking-wider block mt-1">ČTVRTKA 18. ČERVNA<br />DO 8:00 RÁNO</strong>
                                         </p>
                                     </div>
                                 )}
 
                             </div>
                         </div>
+
                         {/* Elegantní ovládací panel s filtry přímo nad kartami projektů */}
                         <div className="bg-white rounded-2xl p-4 md:p-5 mb-8 border border-teal-100/80 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
                             {/* Vyhledávání */}
@@ -327,7 +356,7 @@
                                     <Icon name="search" className="w-4 h-4" />
                                 </span>
                                 <input 
-                                    className="w-full pl-10 pr-4 py-2.5 bg-teal-50/20 text-slate-800 placeholder-slate-400 rounded-xl outline-none focus:ring-2 focus:ring-brand-medium border border-teal-100 font-medium text-sm transition-smooth"
+                                    className="w-full pl-10 pr-4 py-2.5 bg-teal-50/20 text-slate-800 placeholder-slate-400 rounded-xl outline-none focus:ring-2 focus:ring-brand-medium border border-teal-100 font-medium text-sm transition-smooth tracking-wide"
                                     placeholder="Hledat projekt..."
                                     value={searchQuery}
                                     onChange={e => setSearchQuery(e.target.value)}
@@ -372,8 +401,8 @@
                                 <div className="bg-teal-50 text-brand-medium w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <Icon name="search" className="w-8 h-8" />
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-800 mb-1">Žádné projekty nenalezeny</h3>
-                                <p className="text-slate-500 text-sm">Zkuste upravit vyhledávání nebo změnit nastavené filtry.</p>
+                                <h3 className="text-xl font-bold text-slate-800 mb-1 tracking-wider">Žádné projekty nenalezeny</h3>
+                                <p className="text-slate-500 text-sm tracking-wide">Zkuste upravit vyhledávání nebo změnit nastavené filtry.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -396,7 +425,7 @@
                                                         </span>
                                                     ))}
                                                 </div>
-                                                {/* Třídy / Ročník (Zelený / Modrý Tag) */}
+                                                {/* Třídy / Ročník */}
                                                 <div className="flex gap-1">
                                                     {p.years.map(y => (
                                                         <span key={y} className={`text-[10px] px-2 py-0.5 rounded-md border ${getYearTagStyle(y)}`}>
@@ -406,7 +435,7 @@
                                                 </div>
                                             </div>
 
-                                            {/* Druhý řádek tagů: Pouze studentský nebo expert z praxe */}
+                                            {/* Druhý řádek tagů */}
                                             {(p.leaderType === "studentský" || p.leaderType === "expert") && (
                                                 <div className="flex flex-wrap gap-1.5 pl-1 mb-3">
                                                     <span className={`text-[9px] px-2 py-0.5 rounded border uppercase tracking-wider ${getLeaderTypeTagStyle(p.leaderType)}`}>
@@ -415,18 +444,18 @@
                                                 </div>
                                             )}
 
-                                            <h3 className="font-extrabold text-lg text-slate-900 mb-3 leading-snug group-hover:text-brand-medium transition-colors pl-1">
+                                            <h3 className="font-extrabold text-lg text-slate-900 mb-3 leading-snug group-hover:text-brand-medium transition-colors pl-1 tracking-wide">
                                                 {p.title}
                                             </h3>
                                             
-                                            <p className="text-slate-500 text-sm line-clamp-3 leading-relaxed mb-4 pl-1">
+                                            <p className="text-slate-500 text-sm line-clamp-3 leading-relaxed mb-4 pl-1 tracking-wide">
                                                 {p.annotation}
                                             </p>
                                         </div>
 
                                         {/* Spodní kapacita na kartě */}
                                         <div className="mt-auto pt-4 border-t border-teal-50 flex items-center justify-end text-xs text-slate-400 pl-1">
-                                            <span className="flex items-center gap-1 font-extrabold text-teal-800 bg-teal-50 px-2.5 py-1 rounded text-[10px] uppercase">
+                                            <span className="flex items-center gap-1 font-extrabold text-teal-800 bg-teal-50 px-2.5 py-1 rounded text-[10px] uppercase tracking-wider">
                                                 <Icon name="users" className="w-3 h-3 text-brand-medium" /> {p.capacity}
                                             </span>
                                         </div>
@@ -455,7 +484,7 @@
                                     {/* Horní badge a tagy v modálu */}
                                     <div className="flex flex-wrap items-center gap-2 mb-4">
                                         {selectedProject.days.map(d => (
-                                            <span key={d} className={`text-xs px-2.5 py-1 rounded-full border ${getDayTagStyle(d)}`}>
+                                            <span key={d} className={`text-xs px-2.5 py-1 rounded-full border ${getDayTagStyle(d)} tracking-wide`}>
                                                 Den: {d === "ST" ? "Středa" : "Čtvrtek"} ({d})
                                             </span>
                                         ))}
@@ -467,7 +496,7 @@
                                     </div>
                                     
                                     {/* Titulek */}
-                                    <h2 className="text-2xl md:text-3xl font-black leading-tight text-slate-900 mb-6 uppercase tracking-tight">
+                                    <h2 className="text-2xl md:text-3xl font-black leading-tight text-slate-900 mb-6 uppercase tracking-wider">
                                         {selectedProject.title}
                                     </h2>
                                     
@@ -475,7 +504,7 @@
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-teal-50/40 rounded-2xl mb-6 border border-teal-100/50">
                                         <div className="space-y-0.5">
                                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Kapacita</span>
-                                            <span className="text-sm font-extrabold text-teal-950 block">{selectedProject.capacity}</span>
+                                            <span className="text-sm font-extrabold text-teal-950 block tracking-wide">{selectedProject.capacity}</span>
                                         </div>
                                         <div className="space-y-0.5">
                                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Určeno pro</span>
@@ -489,7 +518,7 @@
                                         </div>
                                         <div className="space-y-0.5">
                                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Lokalita</span>
-                                            <span className="text-sm font-extrabold text-teal-950 block truncate" title={selectedProject.location}>
+                                            <span className="text-sm font-extrabold text-teal-950 block truncate tracking-wide" title={selectedProject.location}>
                                                 {selectedProject.location}
                                             </span>
                                         </div>
@@ -501,14 +530,14 @@
                                             <h5 className="text-[10px] font-black uppercase text-brand-medium mb-1.5 tracking-widest flex items-center gap-1">
                                                 <Icon name="align-left" className="w-3 h-3 text-brand-medium" /> Anotace projektu
                                             </h5>
-                                            <p className="text-slate-600 leading-relaxed font-medium text-sm md:text-base">
+                                            <p className="text-slate-600 leading-relaxed font-medium text-sm md:text-base tracking-wide">
                                                 {selectedProject.annotation}
                                             </p>
                                         </div>
                                         
                                         <div>
                                             <h5 className="text-[10px] font-black uppercase text-slate-400 mb-1 tracking-widest">Pro koho je projekt ideální?</h5>
-                                            <p className="text-sm font-semibold text-slate-700">
+                                            <p className="text-sm font-semibold text-slate-700 tracking-wide">
                                                 {selectedProject.target}
                                             </p>
                                         </div>
@@ -518,7 +547,7 @@
                                                 <h5 className="text-[11px] font-black uppercase text-amber-600 mb-1 tracking-widest flex items-center gap-2">
                                                     <Icon name="alert-triangle" className="w-3.5 h-3.5 text-amber-500" /> Důležité upozornění
                                                 </h5>
-                                                <p className="text-xs italic text-amber-950 leading-relaxed">
+                                                <p className="text-xs italic text-amber-950 leading-relaxed tracking-wide">
                                                     {selectedProject.warning}
                                                 </p>
                                             </div>
@@ -538,24 +567,41 @@
                         </div>
                     )}
 
-                    {}
-                    {/* Bezpečná náhrada za standardní alert() okno */}
+                    {/* Automaticky přepínané vyskakovací okno na tlačítku (Před spuštěním / Po uzavření) */}
                     {showInfoModal && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-teal-950/75 backdrop-blur-sm transition-smooth" onClick={() => setShowInfoModal(false)}>
                             <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl relative animate-scale-in" onClick={e => e.stopPropagation()}>
-                                <div className="bg-yellow-100 text-yellow-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <Icon name="clock" className="w-8 h-8" />
-                                </div>
-                                <h3 className="text-xl font-black uppercase text-teal-950 mb-3">Spouštíme v neděli v 18:00</h3>
-                                <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                                    Nyní probíhá pouze fáze čtení katalogu a klidného výběru. Zápis se otevře v neděli v 18:00, abychom zaručili, že nikdo nebude znevýhodněn kvůli pátečnímu nebo pondělnímu cestování.
-                                </p>
-                               <button 
-    onClick={() => setShowInfoModal(false)}
-    className="w-full bg-brand-medium hover:bg-brand-dark text-white font-bold py-3 px-6 rounded-2xl transition-smooth uppercase text-xs tracking-wider shadow-lg"
->
-    Rozumím, pokračovat v prohlížení
-</button>
+                                
+                                {new Date() < new Date('2026-06-14T18:00:00') ? (
+                                    /* DYNAMICKÝ TEXT PRO 1. FÁZI */
+                                    <>
+                                        <div className="bg-yellow-100 text-yellow-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <Icon name="clock" className="w-8 h-8" />
+                                        </div>
+                                        <h3 className="text-xl font-black uppercase text-teal-950 mb-3 tracking-wider">Spouštíme v neděli v 18:00</h3>
+                                        <p className="text-slate-600 text-sm leading-relaxed mb-6 tracking-wide">
+                                            Nyní probíhá pouze fáze čtení katalogu a klidného výběru. Zápis se otevře v neděli v 18:00, abychom zaručili, že nikdo nebude znevýhodněn kvůli pátečnímu nebo pondělnímu cestování.
+                                        </p>
+                                    </>
+                                ) : (
+                                    /* DYNAMICKÝ TEXT PRO 3. FÁZI */
+                                    <>
+                                        <div className="bg-red-50 text-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <Icon name="lock" className="w-8 h-8" />
+                                        </div>
+                                        <h3 className="text-xl font-black uppercase text-red-950 mb-3 tracking-wider">Přihlašování bylo ukončeno</h3>
+                                        <p className="text-slate-600 text-sm leading-relaxed mb-6 tracking-wide">
+                                            Termín pro odeslání přihlášek (čtvrtek 18. června v 8:00) již uplynul. Data byla odeslána k finálnímu zpracování a rozřazení do skupin. V případě nutných změn kontaktuj vedení školy.
+                                        </p>
+                                    </>
+                                )}
+
+                                <button 
+                                    onClick={() => setShowInfoModal(false)}
+                                    className="w-full bg-brand-medium hover:bg-brand-dark text-white font-bold py-3 px-6 rounded-2xl transition-smooth uppercase text-xs tracking-wider shadow-lg"
+                                >
+                                    Rozumím, pokračovat v prohlížení
+                                </button>
                             </div>
                         </div>
                     )}
