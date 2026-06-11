@@ -257,12 +257,12 @@
                     <main className="max-w-6xl mx-auto px-4 py-8">
                         
                         {}
-                 {/* Vstupní informační banner (vysvětlující postup přihlašování) */}
+                {/* Vstupní informační banner (vysvětlující postup přihlašování) */}
                         <div className="bg-gradient-to-br from-brand-dark via-teal-800 to-brand-cyan text-white rounded-3xl p-6 md:p-8 mb-8 shadow-xl border border-brand-light/20 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-yellow/10 rounded-full blur-3xl -z-10"></div>
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                                 
-                                <div className="text-left space-y-2">
+                                <div className="text-left space-y-3">
                                     {/* AUTOMATICKÝ ŠTÍTEK PODLE ČASU */}
                                     {new Date() < new Date('2026-06-10T18:00:00') ? (
                                         <span className="bg-brand-yellow/20 text-brand-yellow text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest inline-block border border-brand-yellow/30">
@@ -277,8 +277,8 @@
                                     {/* AUTOMATICKÝ TEXT BANNERU PODLE ČASU */}
                                     {new Date() < new Date('2026-06-10T18:00:00') ? (
                                         <>
-                                            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Prohlédni si nabídku v klidu</h3>
-                                            <div className="text-teal-50 text-sm md:text-base max-w-2xl leading-relaxed space-y-3 mt-2">
+                                            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider leading-snug">Prohlédni si nabídku v klidu</h3>
+                                            <div className="text-teal-50 text-sm md:text-base max-w-2xl leading-relaxed space-y-4 mt-2 tracking-wide">
                                                 <p><strong>Přihlašování bude spuštěno v neděli 14. června v 18:00.</strong></p>
                                                 <p>Záměrně se vyhýbáme pátku, kdy se nám některé skupiny vrací ze svých výprav a řada z vás odjíždí na víkend mimo domov. Nechtěli jsme ani pondělí, kdy zase jiné školní skupiny odjíždějí.</p>
                                                 <p><strong>Nyní máš dostatek času</strong> projít si v klidu celou nabídku, pročíst anotace jednotlivých projektů and probrat nejlepší kombinace se spolužáky.</p>
@@ -286,8 +286,8 @@
                                         </>
                                     ) : (
                                         <>
-                                            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-brand-yellow">Zápis do projektů spuštěn!</h3>
-                                            <div className="text-teal-50 text-sm md:text-base max-w-2xl leading-relaxed space-y-3 mt-2">
+                                            <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider leading-snug text-brand-yellow">Zápis do projektů spuštěn!</h3>
+                                            <div className="text-teal-50 text-sm md:text-base max-w-2xl leading-relaxed space-y-4 mt-2 tracking-wide">
                                                 <p><strong>Katalog je nyní plně otevřený a přihlašování běží.</strong></p>
                                                 <p>Klikni na žluté plovoucí tlačítko <strong>„Chci se přihlásit“</strong> v pravém dolním rohu obrazovky. To tě okamžitě přesměruje na oficiální Google formulář, kde provedeš zápis.</p>
                                                 <p>Přejeme ti úspěšný výběr a skvělé projektové dny!</p>
@@ -297,31 +297,31 @@
                                 </div>
 
                                {/* AUTOMATICKÝ PRAVÝ BOX PODLE ČASU */}
-                                {new Date() < new Date('2026-06-10T18:00:00') ? (
+                                {new Date() < new Date('2026-06-14T18:00:00') ? (
                                     /* BOX DO NEDĚLE 18:00 (ODČÍTÁNÍ) */
-                                    <div className="bg-teal-950/40 p-5 rounded-2xl border border-brand-light/10 w-full md:w-auto text-left min-w-[240px]">
+                                    <div className="bg-teal-950/40 p-6 rounded-2xl border border-brand-light/10 w-full md:w-auto text-left min-w-[260px] min-h-[140px] flex flex-col justify-center">
                                         <h4 className="text-xs font-black uppercase text-brand-yellow tracking-widest mb-2 flex items-center gap-1.5">
                                             <Icon name="clock" className="w-3.5 h-3.5 text-brand-yellow animate-bounce" /> OTEVŘENÍ ZÁPISU
                                         </h4>
-                                        <p className="text-xl font-black text-white uppercase tracking-wider">NEDĚLE V 18:00</p>
-                                        <p className="text-[11px] text-teal-200 mt-1 font-semibold">Odkaz na formulář bude aktivován přesně v tento čas.</p>
+                                        <p className="text-xl font-black text-white uppercase tracking-widest leading-none">NEDĚLE V 18:00</p>
+                                        <p className="text-[11px] text-teal-200 mt-2 font-semibold leading-relaxed tracking-wide">Odkaz na formulář bude aktivován přesně v tento čas.</p>
                                     </div>
                                 ) : (
                                     /* BOX OD NEDĚLE 18:00 DÁL (SPUŠTĚNO S TERMÍNEM KONCE) */
-                                    <div className="bg-emerald-950/60 p-5 rounded-2xl border border-emerald-500/30 w-full md:w-auto text-left min-w-[240px]">
-                                        <h4 className="text-xs font-black uppercase text-emerald-400 tracking-widest mb-2 flex items-center gap-1.5">
+                                    <div className="bg-emerald-950/60 p-6 rounded-2xl border border-emerald-500/30 w-full md:w-auto text-left min-w-[260px] min-h-[140px] flex flex-col justify-center space-y-2">
+                                        <h4 className="text-xs font-black uppercase text-emerald-400 tracking-widest flex items-center gap-1.5">
                                             <Icon name="check-circle" className="w-3.5 h-3.5 text-emerald-400" /> STAV ZÁPISU
                                         </h4>
-                                        <p className="text-xl font-black text-emerald-400 uppercase tracking-wider">PŘIHLAŠOVÁNÍ BĚŽÍ</p>
-                                        <p className="text-[11px] text-emerald-100 mt-1 font-semibold">
-                                            Čas máš do <strong>čtvrtka 18. června do 8:00</strong> ráno.
+                                        <p className="text-xl font-black text-emerald-400 uppercase tracking-widest leading-none">PŘIHLAŠOVÁNÍ BĚŽÍ</p>
+                                        <p className="text-[12px] text-emerald-100 font-medium leading-loose tracking-wide pt-1">
+                                            Čas máš do:<br />
+                                            <strong className="text-white text-sm tracking-wider block mt-1">ČTVRTKA 18. ČERVNA<br />DO 8:00 RÁNO</strong>
                                         </p>
                                     </div>
                                 )}
 
                             </div>
                         </div>
-
                         {/* Elegantní ovládací panel s filtry přímo nad kartami projektů */}
                         <div className="bg-white rounded-2xl p-4 md:p-5 mb-8 border border-teal-100/80 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
                             {/* Vyhledávání */}
