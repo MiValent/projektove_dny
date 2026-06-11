@@ -183,8 +183,8 @@
     const currentTime = new Date();
 
     if (currentTime < launchTime) {
-        // Ještě není 18:00 -> Ukážeme stopku (otevře se modal)
-        setShowModal(true);
+        // Ještě není 18:00 -> Ukážeme stopku (otevře se info modal)
+        setShowInfoModal(true);
     } else {
         // Už je po 18:00 -> Otevřeme rovnou Google Formulář v nové záložce
         window.open(formUrl, '_blank');
@@ -518,15 +518,12 @@
                                 <p className="text-slate-600 text-sm leading-relaxed mb-6">
                                     Nyní probíhá pouze fáze čtení katalogu a klidného výběru. Zápis se otevře v neděli v 18:00, abychom zaručili, že nikdo nebude znevýhodněn kvůli pátečnímu nebo pondělnímu cestování.
                                 </p>
-                                <button 
-                                    onClick={() => {
-    setShowModal(false);
-    handleApply();
-}}
-                                    className="w-full bg-brand-medium hover:bg-brand-dark text-white font-bold py-3 px-6 rounded-2xl transition-smooth uppercase text-xs tracking-wider shadow-lg"
-                                >
-                                    Rozumím, pokračovat v prohlížení
-                                </button>
+                               <button 
+    onClick={() => setShowInfoModal(false)}
+    className="w-full bg-brand-medium hover:bg-brand-dark text-white font-bold py-3 px-6 rounded-2xl transition-smooth uppercase text-xs tracking-wider shadow-lg"
+>
+    Rozumím, pokračovat v prohlížení
+</button>
                             </div>
                         </div>
                     )}
