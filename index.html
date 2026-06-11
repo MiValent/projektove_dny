@@ -177,6 +177,20 @@
             // Reálný URL odkaz pro spuštění přihlašování
             const formUrl = "https://forms.gle/5Z218Ee3Lh69Tfu17"; 
 
+            const handleApply = () => {
+    // Nastavíme přesný čas spuštění: 14. června 2026 v 18:00
+    const launchTime = new Date('2026-06-14T18:00:00');
+    const currentTime = new Date();
+
+    if (currentTime < launchTime) {
+        // Ještě není 18:00 -> Ukážeme stopku (otevře se modal)
+        setShowModal(true);
+    } else {
+        // Už je po 18:00 -> Otevřeme rovnou Google Formulář v nové záložce
+        window.open(formUrl, '_blank');
+    }
+};
+
             const filteredProjects = useMemo(() => {
                 return PROJECTS_DATA.filter(p => {
                     const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -505,7 +519,10 @@
                                     Nyní probíhá pouze fáze čtení katalogu a klidného výběru. Zápis se otevře v neděli v 18:00, abychom zaručili, že nikdo nebude znevýhodněn kvůli pátečnímu nebo pondělnímu cestování.
                                 </p>
                                 <button 
-                                    onClick={() => setShowInfoModal(false)}
+                                    onClick={() => {
+    setShowModal(false);
+    handleApply();
+}}
                                     className="w-full bg-brand-medium hover:bg-brand-dark text-white font-bold py-3 px-6 rounded-2xl transition-smooth uppercase text-xs tracking-wider shadow-lg"
                                 >
                                     Rozumím, pokračovat v prohlížení
@@ -517,7 +534,7 @@
                     {/* Plovoucí tlačítko na přihlášení */}
                     <div className="fixed bottom-8 right-8 z-40">
                         <button 
-                            onClick={() => setShowInfoModal(true)}
+                            onClick={handleApply}
                             className="bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-6 py-3.5 rounded-full shadow-2xl transition-smooth flex items-center justify-center gap-2 group border border-teal-400/20"
                         >
                             <Icon name="pen-tool" className="w-5 h-5" />
