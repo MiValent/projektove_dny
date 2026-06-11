@@ -723,11 +723,11 @@
 
                                             {/* 2. ŘÁDEK: Tag s pevnou výškou h-6 pro zachování struktury */}
                                             <div className="h-6 mb-1 pl-1 flex items-center">
-                                                {(p.leaderType === "studentský" || p.leaderType === "expert") ? (
-                                                    <span className={`text-[8px] px-1.5 py-0.5 rounded border uppercase tracking-wider ${getLeaderTypeTagStyle(p.leaderType)}`}>
-                                                        {getLeaderTypeLabel(p.leaderType)}
-                                                    </span>
-                                                ) : null}
+                                                {(p.leaderType === "studentský" || p.leaderType === "host z praxe") ? (
+    <span className={`text-[8px] px-1.5 py-0.5 rounded border uppercase tracking-wider ${getLeaderTypeTagStyle(p.leaderType)}`}>
+        {getLeaderTypeLabel(p.leaderType)}
+    </span>
+) : null}
                                             </div>
 
                                             {/* 3. ŘÁDEK: Název projektu (Zafixován na h-14, max 2 řádky) */}
@@ -778,11 +778,11 @@
                                                 Den: {d === "ST" ? "Středa" : "Čtvrtek"} ({d})
                                             </span>
                                         ))}
-                                        {(selectedProject.leaderType === "studentský" || selectedProject.leaderType === "expert") && (
-                                            <span className={`text-xs px-2.5 py-1 rounded-full border uppercase tracking-wider ${getLeaderTypeTagStyle(selectedProject.leaderType)}`}>
-                                                {getLeaderTypeLabel(selectedProject.leaderType)}
-                                            </span>
-                                        )}
+                                       {(selectedProject.leaderType === "studentský" || selectedProject.leaderType === "host z praxe") && (
+    <span className={`text-xs px-2.5 py-1 rounded-full border uppercase tracking-wider ${getLeaderTypeTagStyle(selectedProject.leaderType)}`}>
+        {getLeaderTypeLabel(selectedProject.leaderType)}
+    </span>
+)}
                                     </div>
                                     
                                     <h2 className="text-2xl md:text-3xl font-black leading-tight text-slate-900 dark:text-white mb-6 uppercase tracking-wider">
