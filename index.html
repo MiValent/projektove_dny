@@ -177,8 +177,8 @@
             const formUrl = "https://forms.gle/5Z218Ee3Lh69Tfu17";
 
             const handleApply = () => {
-                const launchTime = new Date('2026-06-04T18:00:00');
-                const closeTime = new Date('2026-06-08T08:00:00');
+                const launchTime = new Date('2026-06-14T18:00:00');
+                const closeTime = new Date('2026-06-18T08:00:00');
                 const currentTime = new Date();
 
                 if (currentTime < launchTime) {
@@ -265,11 +265,11 @@
                                 
                                 <div className="text-left space-y-3">
                                     {/* 1., 2. a 3. AUTOMATICKÝ ŠTÍTEK PODLE ČASU */}
-                                    {new Date() < new Date('2026-06-04T18:00:00') ? (
+                                    {new Date() < new Date('2026-06-14T18:00:00') ? (
                                         <span className="bg-brand-yellow/20 text-brand-yellow text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest inline-block border border-brand-yellow/30">
                                             PŘÍPRAVNÁ FÁZE
                                         </span>
-                                    ) : new Date() >= new Date('2026-06-08T08:00:00') ? (
+                                    ) : new Date() >= new Date('2026-06-18T08:00:00') ? (
                                         <span className="bg-slate-700 text-slate-300 text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-widest inline-block border border-slate-600 shadow-sm">
                                             🔒 ZÁPIS UZAVŘEN
                                         </span>
@@ -280,7 +280,7 @@
                                     )}
 
                                     {/* 1., 2. a 3. AUTOMATICKÝ TEXT BANNERU PODLE ČASU */}
-                                    {new Date() < new Date('2026-06-04T18:00:00') ? (
+                                    {new Date() < new Date('2026-06-14T18:00:00') ? (
                                         <>
                                             <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider leading-snug">Prohlédni si nabídku v klidu</h3>
                                             <div className="text-teal-50 text-sm md:text-base max-w-2xl leading-relaxed space-y-4 mt-2 tracking-wide">
@@ -289,7 +289,7 @@
                                                 <p><strong>Nyní máš dostatek času</strong> projít si v klidu celou nabídku, pročíst anotace jednotlivých projektů and probrat nejlepší kombinace se spolužáky.</p>
                                             </div>
                                         </>
-                                    ) : new Date() >= new Date('2026-06-08T08:00:00') ? (
+                                    ) : new Date() >= new Date('2026-06-18T08:00:00') ? (
                                         <>
                                             <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider leading-snug text-slate-300">Přihlašování ukončeno</h3>
                                             <div className="text-teal-50 text-sm md:text-base max-w-2xl leading-relaxed space-y-4 mt-2 tracking-wide">
@@ -311,7 +311,7 @@
                                 </div>
 
                                {/* 1., 2. a 3. AUTOMATICKÝ PRAVÝ BOX PODLE ČASU */}
-                                {new Date() < new Date('2026-06-04T18:00:00') ? (
+                                {new Date() < new Date('2026-06-14T18:00:00') ? (
                                     /* FÁZE 1: BOX DO NEDĚLE 18:00 (PŘÍPRAVA) */
                                     <div className="bg-teal-950/40 p-6 rounded-2xl border border-brand-light/10 w-full md:w-auto text-left min-w-[260px] min-h-[140px] flex flex-col justify-center">
                                         <h4 className="text-xs font-black uppercase text-brand-yellow tracking-widest mb-2 flex items-center gap-1.5">
@@ -320,7 +320,7 @@
                                         <p className="text-xl font-black text-white uppercase tracking-widest leading-none">NEDĚLE V 18:00</p>
                                         <p className="text-[11px] text-teal-200 mt-2 font-semibold leading-relaxed tracking-wide">Odkaz na formulář bude aktivován přesně v tento čas.</p>
                                     </div>
-                                ) : new Date() >= new Date('2026-06-08T08:00:00') ? (
+                                ) : new Date() >= new Date('2026-06-18T08:00:00') ? (
                                     /* FÁZE 3: BOX OD ČTVRTKA 8:00 RÁNO (UZAVŘENO) */
                                     <div className="bg-slate-950/50 p-6 rounded-2xl border border-slate-600/30 w-full md:w-auto text-left min-w-[260px] min-h-[140px] flex flex-col justify-center space-y-2">
                                         <h4 className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-1.5">
@@ -572,7 +572,7 @@
                         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-teal-950/75 backdrop-blur-sm transition-smooth" onClick={() => setShowInfoModal(false)}>
                             <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl relative animate-scale-in" onClick={e => e.stopPropagation()}>
                                 
-                                {new Date() < new Date('2026-06-04T18:00:00') ? (
+                                {new Date() < new Date('2026-06-14T18:00:00') ? (
                                     /* DYNAMICKÝ TEXT PRO 1. FÁZI */
                                     <>
                                         <div className="bg-yellow-100 text-yellow-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
