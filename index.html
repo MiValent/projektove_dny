@@ -7,18 +7,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'media', /* Automaticky přepíná tmavý režim podle systému/času uživatele */
+            darkMode: 'media',
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#0f766e',    /* Tmavě tyrkysová (Deep Teal) */
-                            medium: '#0d9488',  /* Střední tyrkysová (Teal) */
-                            light: '#2dd4bf',   /* Světlá tyrkysová (Turquoise) */
-                            cyan: '#06b6d4',    /* Azurová (Cyan) */
-                            yellow: '#facc15',  /* Zářivě žlutá (Yellow Accent) */
+                            dark: '#0f766e',
+                            medium: '#0d9488',
+                            light: '#2dd4bf',
+                            cyan: '#06b6d4',
+                            yellow: '#facc15',
                             yellowHover: '#eab308',
-                            bg: '#f0fdfa'       /* Velmi lehký tyrkysový nádech na pozadí */
+                            bg: '#f0fdfa'
                         }
                     },
                     fontFamily: {
@@ -34,12 +34,10 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Plynulé přechody pro interaktivní prvky */
         .transition-smooth {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Animace pro načtení modálu */
         @keyframes scaleIn {
             from { transform: scale(0.95); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -52,23 +50,14 @@
 <body class="bg-teal-50/30 dark:bg-slate-900 text-slate-900 dark:text-slate-100 pb-20 transition-colors duration-300">
     <div id="root"></div>
 
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Vývojové verze Reactu pro 100% kompatibilitu s Babel standalone -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
-        const { useState, useMemo, useEffect } = React;
+        const { useState, useMemo } = React;
 
-        // Pomocný komponent pro zobrazení moderních Lucide ikon
-        const Icon = ({ name, className }) => {
-            useEffect(() => { 
-                if (window.lucide) window.lucide.createIcons(); 
-            }, [name, className]);
-            return <i data-lucide={name} className={className}></i>;
-        };
-
-        // Kompletní data projektů
         const PROJECTS_DATA = [
     {
         "id": "atletika-kamaradka",
@@ -238,7 +227,7 @@
         "capacity": "5 studentů",
         "target": "Pro zájemce o věci veřejné z řad vyššího gymnázia.",
         "warning": "Vyžaduje se aktivní účast a formulování názorů.",
-        "annotation": "Zajímá tě, jak se reálně řídí město? Pak máš jedinečnou možnost prožít běžný pracovní den po boku člena vedení města. Absolvuješ schůzky s vedoucími odborů dopravy i životního prostředí a zapojíš se do pracovní skupiny městských architektů. Budeš tak mít přímý vliv na oblasti, které nejvíc ovlivňují náš každodenní život ve městě. Na schůzkách nebudeš jen pasivním pozorovatelem – naopak! Pro tenhle projekt hledáme lidi, kteří se nebojí říct svůj názor, protože jejich postřehy budou doomed reálnou váhu a pomohou přímo spoluvytvářet podobu města. Na závěr tě čeká neformální debata s místostarostou, kde s ním můžeš probrat, co se ti ve městě líbí nebo co bys naopak změnil(a), a společně vytvoříte mediální výstup pro městské sociální sítě."
+        "annotation": "Zajímá tě, jak se reálně řídí město? Pak máš jedinečnou možnost prožít běžný pracovní den po boku člena vedení města. Absolvuješ schůzky s vedoucími odborů dopravy i životního prostředí a zapojíš se do pracovní skupiny městských architektů. Budeš tak mít přímý vliv na oblasti, které nejvíc ovlivňují náš každodenní život ve městě. Na schůzkách nebudeš jen pasivním pozorovatelem – naopak! Pro tenhle projekt hledáme lidi, kteří se nebojí říct svůj názor, protože jejich postřehy budou mít reálnou váhu a pomohou přímo spoluvytvářet podobu města. Na závěr tě čeká neformální debata s místostarostou, kde s ním můžeš probrat, co se ti ve městě líbí nebo co bys naopak změnil(a), a společně vytvoříte mediální výstup pro městské sociální sítě."
     },
     {
         "id": "netovicka-stran",
@@ -317,7 +306,7 @@
         "capacity": "12 studentů",
         "target": "Pro každého, kdo chce získat skutečné sebevědomí a praktické dovednosti při záchraně života.",
         "warning": "Žádná suchá teorie, ale čistá realita! Situace budou věrohodně simulovány.",
-        "annotation": "Nauč se správně reagovat, když jde v reálném životě do tuhého, a vyzkoušej si první pomoc v praxi. Tvoji starší spolužáci pro tebe v areálu školy připraví stanoviště plná věrohodně namaskovaných zranění a krizových situací. Celý okruh si projdeš jako active zachránce a odneseš si neprůstřelné praktické základy, které ti jednou mohou pomoci zachránit lidský život. Žádná suchá teorie, ale čistá realita!"
+        "annotation": "Nauč se správně reagovat, když jde v reálném životě do tuhého, a vyzkoušej si první pomoc v praxi. Tvoji starší spolužáci pro tebe v areálu školy připraví stanoviště plná věrohodně namaskovaných zranění a krizových situací. Celý okruh si projdeš jako aktivní zachránce a odneseš si neprůstřelné praktické základy, které ti jednou mohou pomoci zachránit lidský život. Žádná suchá teorie, ale čistá realita!"
     },
     {
         "id": "psavci-sobe-st",
@@ -327,7 +316,7 @@
         "leaderType": "učitel",
         "capacity": "10 studentů",
         "target": "Máš v hlavě příběhy, které chceš dát na papír? Nebo si píšeš básničky do šuplíku? Tento projekt je pro tebe.",
-        "warning": "Přines si své oblíbené psací potřeby, zápisník nebo notebook.",
+        "warning": "Přines si své oblíbené psací popisky, zápisník nebo notebook.",
         "annotation": "Bylo nebylo, ve sluncem zalité učebně seděla skupinka mladých lidí a chvíle ticha přerušoval jen zvuk propisek kmitajících po papíře. Ptáte se, co tam dělali? Fantazírovali. O světech, lidech a emocích. Chcete se přidat? Ať už se psaním začínáte, nebo už nějakou dobu píšete do šuplíku, ať už vás baví detektivky, romantasy, nebo historické romány, přijďte a popusťte uzdu své fantazii. Pojďme psát, sdílet a užívat si tvůrčí flow."
     },
     {
@@ -337,7 +326,7 @@
         "days": ["ST"],
         "leaderType": "studentský",
         "capacity": "20 studentů",
-        "target": "Pro fanoušku soutěží, her a týmových výzev.",
+        "target": "Pro fanoušky soutěží, her a týmových výzev.",
         "warning": "Budeš sbírat imunity, získávat výhody a bojovat o vítězství pod tlakem.",
         "annotation": "Zažij atmosféru oblíbených televizních show na vlastní kůži v jedinečném projektu tvých spolužáků! Během tohoto intenzivního soutěžního dne tě čeká mix vědomostních, fyzických, logických i sociálních výzev. Vyzkoušíš si týmovou strategii v Survivoru, napínavé duely z AZ-kvízu, kreativní MasterChefův „tajný box“, zábavné hry z Love Islandu, smyslovou arénu i bleskovou únikovku. Budeš sbírat imunity, získávat výhody a bojovat o vítězství. Dokážeš se správně rozhodovat pod tlakem a dojít až do velkého finále?"
     },
@@ -457,7 +446,7 @@
     },
     {
         "id": "vyvoj-jadernych-zbrani",
-        "title": "Vývoj jaderných zbraní a jejich nebezpečnost",
+        "title": "Vývoj jaderných zbraní a their nebezpečnost",
         "years": ["NG", "VG"],
         "days": ["ST"],
         "leaderType": "učitel",
@@ -466,9 +455,8 @@
         "warning": "Podíváme se na fyzikální principy nukleárních zbraní a jejich reálné účinky.",
         "annotation": "Jak funguje nejničivější zbraň v lidské historii a jak blízko byla planeta svému zániku? Tento projekt tě provede fascinujícím, ale i mrazivým příběhem vývoje atomové bomby za 2. světové války. Podíváme se na fyzikální principy nukleárních zbraní, jejich reálné účinky a nebezpečí radioaktivního záření, které lidstvo straší dodnes."
     }
-]; // Konec PROJECTS_DATA
+];
 
-        // Logika a komponenty aplikace React
         const App = () => {
             const [selectedDay, setSelectedDay] = useState('ALL');
             const [selectedYear, setSelectedYear] = useState('ALL');
@@ -507,14 +495,14 @@
 
                     {/* Vyhledávání */}
                     <div className="mb-8 relative max-w-md mx-auto md:mx-0">
+                        <span className="absolute left-4 top-3.5 text-slate-400 text-sm">🔍</span>
                         <input 
                             type="text" 
-                            placeholder="Hledat projekt..." 
+                            placeholder="     Hledat projekt..." 
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-brand-medium text-slate-900 dark:text-white"
+                            className="w-full pl-6 pr-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-brand-medium text-slate-900 dark:text-white"
                         />
-                        <Icon name="search" className="absolute left-4 top-3.5 text-slate-400 w-4 h-4" />
                     </div>
 
                     {/* Mřížka projektů */}
@@ -532,7 +520,7 @@
                                         {p.days.map(d => <span key={d} className="bg-teal-50 dark:bg-teal-950/40 text-brand-dark dark:text-teal-300 text-[10px] font-black px-2 py-1 rounded-md">{d === 'ST' ? 'STŘEDA' : 'ČTVRTEK'}</span>)}
                                     </div>
                                     <button onClick={() => setModalProject(p)} className="text-brand-medium dark:text-brand-light hover:text-brand-dark text-xs font-bold flex items-center gap-1 transition-smooth">
-                                        Více informací <Icon name="arrow-right" className="w-3 h-3" />
+                                        Více informací <span>➔</span>
                                     </button>
                                 </div>
                             </div>
@@ -545,8 +533,8 @@
                             <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 shadow-2xl animate-scale-in border border-slate-100 dark:border-slate-800">
                                 <div className="flex justify-between items-start gap-4 mb-6">
                                     <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{modalProject.title}</h2>
-                                    <button onClick={() => setModalProject(null)} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-white transition-smooth">
-                                        <Icon name="x" className="w-5 h-5" />
+                                    <button onClick={() => setModalProject(null)} className="px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-white transition-smooth text-xs font-bold">
+                                        Zavřít ✕
                                     </button>
                                 </div>
                                 
@@ -566,8 +554,8 @@
                                         </div>
                                     </div>
                                     {modalProject.warning && (
-                                        <div className="bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/30 flex gap-3">
-                                            <Icon name="alert-triangle" className="w-5 h-5 flex-shrink-0" />
+                                        <div className="bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/30 flex gap-3 items-center">
+                                            <span className="text-lg">⚠️</span>
                                             <p className="font-medium text-xs leading-relaxed">{modalProject.warning}</p>
                                         </div>
                                     )}
@@ -587,7 +575,7 @@
                             onClick={handleApply}
                             className="bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-6 py-3.5 rounded-full shadow-2xl transition-smooth flex items-center justify-center gap-2 group border border-teal-400/20 dark:border-yellow-500/30"
                         >
-                            <Icon name="pen-tool" className="w-5 h-5" />
+                            <span>📝</span>
                             <span className="font-black uppercase text-xs tracking-widest">Chci se přihlásit</span>
                         </button>
                     </div>
