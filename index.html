@@ -41,29 +41,27 @@
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #0f766e; }
     </style>
 </head>
-<body class="bg-[#f0fdfa] dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300">
+<body class="bg-[#f0fdfa] text-slate-800 min-h-screen">
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        // Použijeme naprosto základní React hooks
+        const useState = React.useState;
+        const useEffect = React.useEffect;
 
-        // Bezpečné vykreslení ikon
-        const Icon = ({ name, className }) => {
+        // Bezpečné volání ikon bez pádů aplikace
+        const Icon = (props) => {
             useEffect(() => { 
                 if (window.lucide && typeof window.lucide.createIcons === 'function') {
                     window.lucide.createIcons(); 
                 }
-            }, [name, className]);
-            return <i data-lucide={name} className={className}></i>;
+            }, [props.name]);
+            return <i data-lucide={props.name} className={props.className}></i>;
         };
 
-        // Databáze projektů
+        // Základní čistá data projektů
         const projectsData = [
             {
                 id: 1,
@@ -72,10 +70,10 @@
                 location: "Učebna IVT (U12)",
                 capacity: "15 / 15",
                 isFull: true,
-                tags: ["Technologie", "Programování", "Hardware"],
+                tags: ["Technologie", "Programování"],
                 description: "Sestav si vlastní meteostanici, naprogramuj ji v C++ a propoj ji s cloudem. Vyzkoušíš si základy mikrokontrolérů ESP32 a zapojování senzorů.",
                 difficulty: "Střední",
-                cost: "150 Kč (materiál)"
+                cost: "150 Kč"
             },
             {
                 id: 2,
@@ -84,7 +82,7 @@
                 location: "Auly a exteriéry",
                 capacity: "12 / 20",
                 isFull: false,
-                tags: ["Umění", "Media", "Tým"],
+                tags: ["Umění", "Media"],
                 description: "Intenzivní workshop, kde během tří dnů natočíte krátký hraný film nebo reportáž. Naučíte se základy kamery, střihu v DaVinci Resolve a práce se zvukem.",
                 difficulty: "Nízká",
                 cost: "Zdarma"
@@ -96,7 +94,7 @@
                 location: "Laboratoř biologie",
                 capacity: "8 / 12",
                 isFull: false,
-                tags: ["Věda", "Biologie", "Analýza"],
+                tags: ["Věda", "Biologie"],
                 description: "Jak se sekvenuje lidský genom a jak pomocí Pythonu hledáme mutace způsobující nemoci? Spojení moderní genetiky a pokročilé datové analýzy.",
                 difficulty: "Vysoká",
                 cost: "Zdarma"
@@ -105,37 +103,13 @@
                 id: 4,
                 title: "Architektura a urbanismus Slaného",
                 garant: "MgA. Aleš Dvořák",
-                location: "Ateliér výtvarné výchovy + terén",
+                location: "Ateliér výtvarné výchovy",
                 capacity: "18 / 18",
                 isFull: true,
-                tags: ["Historie", "Design", "Terén"],
+                tags: ["Historie", "Design"],
                 description: "Analýza veřejného prostoru kolem nás. Navrhni urbanistické vylepšení vybraného náměstí ve Slaném a vytvoř jeho fyzický 3D model z kartonu.",
                 difficulty: "Střední",
                 cost: "50 Kč"
-            },
-            {
-                id: 5,
-                title: "Finanční trhy a investování v 21. století",
-                garant: "Ing. Radka Horáková",
-                location: "Učebna 2A",
-                capacity: "25 / 30",
-                isFull: false,
-                tags: ["Ekonomika", "Praxe", "Simulace"],
-                description: "Pochop mechanismus akcií, ETF, kryptoměn a inflace. Součástí projektu je reálná týmová investiční simulace na burze s fiktivním milionem korun.",
-                difficulty: "Nízká",
-                cost: "Zdarma"
-            },
-            {
-                id: 6,
-                title: "Chemická kuchyně a molekulární gastronomie",
-                garant: "Mgr. Eva Dlouhá",
-                location: "Laboratoř chemie",
-                capacity: "16 / 16",
-                isFull: true,
-                tags: ["Věda", "Chemie", "Gastronomie"],
-                description: "Výroba domácího ginu (nealko), kaviáru z ovocné šťávy pomocí alginátu sodného a blesková zmrzlina chlazená tekutým dusíkem. Chemie, která chutná.",
-                difficulty: "Střední",
-                cost: "250 Kč (suroviny)"
             }
         ];
 
@@ -144,125 +118,77 @@
             const [selectedTag, setSelectedTag] = useState("Vše");
             const [showFull, setShowFull] = useState(true);
             const [isModalOpen, setIsModalOpen] = useState(false);
-            const [timeRemaining, setTimeRemaining] = useState("");
 
-            // Bezpečné nastavení koncového času (+2 hodiny od otevření)
-            const [closeTime] = useState(() => {
-                const date = new Date();
-                date.setHours(date.getHours() + 2);
-                return date.getTime();
-            });
-
-            useEffect(() => {
-                const timer = setInterval(() => {
-                    const now = new Date().getTime();
-                    const diff = closeTime - now;
-
-                    if (diff <= 0) {
-                        setTimeRemaining("PŘIHLAŠOVÁNÍ UKONČENO");
-                        clearInterval(timer);
-                    } else {
-                        const hours = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
-                        const minutes = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
-                        const seconds = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-                        setTimeRemaining(`${hours}:${minutes}:${seconds}`);
-                    }
-                }, 1000);
-                return () => clearInterval(timer);
-            }, [closeTime]);
-
-            // Generování seznamu tagů
-            const allTags = ["Vše"];
-            projectsData.forEach(p => {
-                p.tags.forEach(t => {
-                    if (!allTags.includes(t)) allTags.push(t);
-                });
-            });
-
-            // Filtrování projektů
+            // Filtrování napsané nejprostším možným způsobem pro eliminaci chyb
             const filteredProjects = projectsData.filter(project => {
-                const matchesSearch = project.title.toLowerCase().includes(search.toLowerCase()) || 
-                                     project.garant.toLowerCase().includes(search.toLowerCase()) ||
-                                     project.description.toLowerCase().includes(search.toLowerCase());
-                const matchesTag = selectedTag === "Vše" || project.tags.includes(selectedTag);
-                const matchesFull = showFull ? true : !project.isFull;
+                const matchesSearch = project.title.toLowerCase().indexOf(search.toLowerCase()) !== -1 || 
+                                     project.description.toLowerCase().indexOf(search.toLowerCase()) !== -1;
                 
+                let matchesTag = false;
+                if (selectedTag === "Vše") {
+                    matchesTag = true;
+                } else {
+                    if (project.tags.indexOf(selectedTag) !== -1) {
+                        matchesTag = true;
+                    }
+                }
+
+                const matchesFull = showFull ? true : !project.isFull;
                 return matchesSearch && matchesTag && matchesFull;
             });
 
             return (
                 <div className="p-4 md:p-8 max-w-7xl mx-auto">
-                    {/* Horní info lišta */}
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-teal-900 text-teal-50 p-4 rounded-2xl mb-8 border border-teal-700/50 shadow-lg">
-                        <div className="flex items-center gap-3">
-                            <span className="relative flex h-3 w-3">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
-                            </span>
-                            <p className="text-xs font-bold tracking-wider uppercase opacity-90">Stav registrace: Systém je aktivní</p>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <div className="text-center md:text-right">
-                                <p className="text-[10px] tracking-widest text-teal-300 uppercase font-black">Konec řádného přihlašování za</p>
-                                <p className="font-mono text-xl font-black text-brand-yellow tracking-wider">{timeRemaining}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Hero Sekce */}
-                    <header className="mb-12 text-center md:text-left">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-100 dark:bg-teal-950/60 border border-teal-200/50 dark:border-teal-900/50 text-brand-dark dark:text-brand-light mb-4">
+                    {/* Hlavní nadpis */}
+                    <header className="mb-12">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-100 text-brand-dark mb-4 text-xs font-bold uppercase tracking-wider">
                             <Icon name="graduation-cap" className="w-4 h-4" />
-                            <span className="text-xs font-black uppercase tracking-widest">Gymnázium Slaný</span>
+                            <span>Gymnázium Slaný</span>
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4 bg-gradient-to-r from-teal-950 via-teal-800 to-cyan-700 dark:from-teal-100 dark:via-teal-200 dark:to-cyan-400 bg-clip-text text-transparent">
+                        <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4 text-slate-900">
                             Projektové Dny 2026
                         </h1>
-                        <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl font-medium">
-                            Přehled volitelných modulů a tvůrčích dílen. Vyberte si svůj projekt, sledujte obsazenost kapacity a včas se registrujte.
+                        <p className="text-lg text-slate-500 max-w-2xl font-medium">
+                            Přehled volitelných modulů a tvůrčích dílen. Vyberte si svůj projekt a včas se registrujte.
                         </p>
                     </header>
 
-                    {/* Ovládací prvky a Filtry */}
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-teal-100 dark:border-slate-800/80 mb-8 flex flex-col gap-6">
+                    {/* Filtrační panel */}
+                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-teal-100 mb-8 flex flex-col gap-6">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div className="relative w-full md:w-96">
-                                <Icon name="search" className="w-5 h-5 absolute left-4 top-3.5 text-slate-400" />
                                 <input 
                                     type="text" 
-                                    placeholder="Hledat projekt, garanta, klíčová slova..."
+                                    placeholder="Hledat projekt..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-medium text-sm integration-smooth"
+                                    className="w-full pl-4 pr-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-medium text-sm"
                                 />
                             </div>
 
-                            <label className="flex items-center gap-3 cursor-pointer group select-none">
-                                <div className="relative">
-                                    <input 
-                                        type="checkbox" 
-                                        checked={showFull} 
-                                        onChange={() => setShowFull(!showFull)} 
-                                        className="sr-only" 
-                                    />
-                                    <div className={`w-12 h-6 rounded-full duration-300 ${showFull ? 'bg-brand-medium' : 'bg-slate-300 dark:bg-slate-800'}`}></div>
-                                    <div className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full duration-300 shadow-sm ${showFull ? 'transform translate-x-6' : ''}`}></div>
-                                </div>
-                                <span className="text-sm font-bold text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200">
+                            <label className="flex items-center gap-3 cursor-pointer select-none">
+                                <input 
+                                    type="checkbox" 
+                                    checked={showFull} 
+                                    onChange={() => setShowFull(!showFull)} 
+                                    className="w-4 h-4 text-brand-medium"
+                                />
+                                <span className="text-sm font-bold text-slate-600">
                                     Zobrazovat i plně obsazené projekty
                                 </span>
                             </label>
                         </div>
 
-                        <div className="flex flex-wrap gap-2 border-t border-slate-100 dark:border-slate-800/60 pt-4">
-                            {allTags.map(tag => (
+                        {/* Tlačítka kategorií */}
+                        <div className="flex flex-wrap gap-2 border-t border-slate-100 pt-4">
+                            {["Vše", "Technologie", "Programování", "Umění", "Media", "Věda", "Biologie", "Historie", "Design"].map(tag => (
                                 <button
                                     key={tag}
                                     onClick={() => setSelectedTag(tag)}
-                                    className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider duration-200 ${
+                                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
                                         selectedTag === tag 
                                         ? 'bg-brand-medium text-white shadow-md' 
-                                        : 'bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'
+                                        : 'bg-slate-50 hover:bg-slate-100 text-slate-600'
                                     }`}
                                 >
                                     {tag}
@@ -271,80 +197,60 @@
                         </div>
                     </div>
 
-                    {/* Výsledky */}
+                    {/* Mřížka s projekty */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredProjects.map(project => (
                             <div 
                                 key={project.id} 
-                                className={`bg-white dark:bg-slate-900 rounded-3xl p-6 border duration-300 flex flex-col justify-between group ${
-                                    project.isFull 
-                                    ? 'border-slate-200 dark:border-slate-800/50 opacity-75' 
-                                    : 'border-teal-100 dark:border-slate-800 hover:border-brand-light dark:hover:border-brand-medium'
+                                className={`bg-white rounded-3xl p-6 border flex flex-col justify-between ${
+                                    project.isFull ? 'border-slate-200 opacity-75' : 'border-teal-100 shadow-sm'
                                 }`}
                             >
                                 <div>
                                     <div className="flex justify-between items-start gap-4 mb-4">
                                         <div className="flex flex-wrap gap-1.5">
                                             {project.tags.map(t => (
-                                                <span key={t} className="px-2 py-0.5 rounded bg-teal-50 dark:bg-teal-950 text-[10px] font-bold uppercase tracking-wider text-brand-dark dark:text-brand-light">
+                                                <span key={t} className="px-2 py-0.5 rounded bg-teal-50 text-[10px] font-bold uppercase tracking-wider text-brand-dark">
                                                     {t}
                                                 </span>
                                             ))}
                                         </div>
                                         <span className={`px-2.5 py-1 rounded-full text-[11px] font-black tracking-wide uppercase ${
-                                            project.isFull 
-                                            ? 'bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400' 
-                                            : 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400'
+                                            project.isFull ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-600'
                                         }`}>
                                             {project.isFull ? "Plno" : "Volno"}
                                         </span>
                                     </div>
 
-                                    <h3 className="text-xl font-extrabold mb-2 text-slate-900 dark:text-slate-50 group-hover:text-brand-medium dark:group-hover:text-brand-light">
+                                    <h3 className="text-xl font-extrabold mb-2 text-slate-900">
                                         {project.title}
                                     </h3>
-                                    <p className="text-xs font-bold text-slate-400 dark:text-slate-500 mb-4 flex items-center gap-1.5">
-                                        <Icon name="user" className="w-3.5 h-3.5" />
+                                    <p className="text-xs font-bold text-slate-400 mb-4">
                                         Garant: {project.garant}
                                     </p>
 
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6 font-medium leading-relaxed">
+                                    <p className="text-sm text-slate-600 mb-6 leading-relaxed">
                                         {project.description}
                                     </p>
                                 </div>
 
-                                <div className="border-t border-slate-50 dark:border-slate-800/60 pt-4 mt-auto">
-                                    <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-xs font-bold text-slate-500 dark:text-slate-400 mb-4">
-                                        <div className="flex items-center gap-1.5 min-w-0">
-                                            <Icon name="map-pin" className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-                                            <span className="truncate">{project.location}</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 justify-end">
-                                            <Icon name="gauge" className="w-3.5 h-3.5 text-slate-400" />
-                                            <span>{project.difficulty}</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5">
-                                            <Icon name="credit-card" className="w-3.5 h-3.5 text-slate-400" />
-                                            <span>{project.cost}</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 justify-end">
-                                            <Icon name="users" className="w-3.5 h-3.5 text-slate-400" />
-                                            <span className={project.isFull ? "text-red-500 font-extrabold" : "text-emerald-500 font-extrabold"}>
-                                                {project.capacity}
-                                            </span>
-                                        </div>
+                                <div className="border-t border-slate-50 pt-4 mt-auto">
+                                    <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-xs font-bold text-slate-500 mb-4">
+                                        <div>Místo: {project.location}</div>
+                                        <div className="text-right">Náročnost: {project.difficulty}</div>
+                                        <div>Cena: {project.cost}</div>
+                                        <div className="text-right">Kapacita: <span className={project.isFull ? "text-red-500" : "text-emerald-500"}>{project.capacity}</span></div>
                                     </div>
 
                                     <button 
                                         disabled={project.isFull}
                                         onClick={() => setIsModalOpen(true)}
-                                        className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 ${
+                                        className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-widest ${
                                             project.isFull 
-                                            ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed' 
-                                            : 'bg-slate-900 hover:bg-brand-medium text-white dark:bg-slate-800 dark:hover:bg-brand-medium'
+                                            ? 'bg-slate-100 text-slate-400 cursor-not-allowed' 
+                                            : 'bg-slate-900 hover:bg-brand-medium text-white'
                                         }`}
                                     >
-                                        <Icon name={project.isFull ? "lock" : "arrow-right"} className="w-3.5 h-3.5" />
                                         {project.isFull ? "Obsazeno" : "Přihlásit se"}
                                     </button>
                                 </div>
@@ -352,59 +258,25 @@
                         ))}
                     </div>
 
-                    {/* Prázdný stav */}
-                    {filteredProjects.length === 0 && (
-                        <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
-                            <Icon name="folder-open" className="w-12 h-12 text-slate-300 dark:text-slate-700 mx-auto mb-4" />
-                            <h3 className="text-lg font-bold mb-1 text-slate-700 dark:text-slate-300">Žádné projekty neodpovídají filtrům</h3>
-                            <p className="text-sm text-slate-400 dark:text-slate-500">Zkuste změnit klíčové slovo.</p>
-                        </div>
-                    )}
-
-                    {/* Modal Okno */}
+                    {/* Jednoduché Modal Okno */}
                     {isModalOpen && (
-                        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 max-w-md w-full border border-teal-100 dark:border-slate-800 shadow-2xl relative">
-                                <button 
-                                    onClick={() => setIsModalOpen(false)}
-                                    className="absolute right-4 top-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-                                >
-                                    <Icon name="x" className="w-5 h-5" />
-                                </button>
+                        <div className="fixed inset-0 bg-slate-950/50 backdrop-blur-sm flex items-center justify-center p-4">
+                            <div className="bg-white rounded-3xl p-6 max-w-md w-full border border-teal-100 shadow-2xl relative">
                                 <div className="text-center mb-6">
-                                    <div className="w-12 h-12 bg-amber-50 dark:bg-amber-950/40 text-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                        <Icon name="alert-triangle" className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="text-xl font-black mb-2 text-slate-900 dark:text-slate-50">Externí registrace</h3>
-                                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                                        Samotné odesílání přihlášek probíhá prostřednictvím školního informačního systému (Bakaláři / Škola Online) nebo interního Google formuláře.
+                                    <h3 className="text-xl font-black mb-2 text-slate-900">Externí registrace</h3>
+                                    <p className="text-sm text-slate-500 font-medium">
+                                        Samotné odesílání přihlášek probíhá prostřednictvím školního informačního systému (Bakaláři / Škola Online).
                                     </p>
                                 </div>
                                 <button 
                                     onClick={() => setIsModalOpen(false)}
-                                    className="w-full bg-brand-medium hover:bg-brand-dark text-white font-black uppercase text-xs tracking-widest py-3 rounded-xl shadow-lg"
+                                    className="w-full bg-brand-medium text-white font-black uppercase text-xs tracking-widest py-3 rounded-xl shadow-lg"
                                 >
-                                    Rozumím, pokračovat
+                                    Rozumím, zavřít
                                 </button>
                             </div>
                         </div>
                     )}
-
-                    {/* Plovoucí tlačítko */}
-                    <div className="fixed bottom-8 right-8 z-40">
-                        <button 
-                            onClick={() => setIsModalOpen(true)}
-                            className="bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-6 py-3.5 rounded-full shadow-2xl flex items-center justify-center gap-2 group border border-teal-400/20"
-                        >
-                            <Icon name="pen-tool" className="w-5 h-5" />
-                            <span className="font-black uppercase text-xs tracking-widest">Chci se přihlásit</span>
-                        </button>
-                    </div>
-
-                    {/* Patička */}
-                    <footer className="max-w-6xl mx-auto px-4 py-12 border-t border-teal-100 dark:border-slate-800 text-center mt-12">
-                        <p className="text-slate-400 dark:text-slate-500 text-xs font-black uppercase tracking-[0.3em] mb-2">Gymnázium Slaný • Projektové dny 2026</p>
-                    </footer>
                 </div>
             );
         };
