@@ -7,18 +7,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'media', /* Automaticky přepíná tmavý režim podle systému/času uživatele */
+            darkMode: 'media',
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#0f766e',    /* Tmavě tyrkysová (Deep Teal) */
-                            medium: '#0d9488',  /* Střední tyrkysová (Teal) */
-                            light: '#2dd4bf',   /* Světlá tyrkysová (Turquoise) */
-                            cyan: '#06b6d4',    /* Azurová (Cyan) */
-                            yellow: '#facc15',  /* Zářivě žlutá (Yellow Accent) */
+                            dark: '#0f766e',
+                            medium: '#0d9488',
+                            light: '#2dd4bf',
+                            cyan: '#06b6d4',
+                            yellow: '#facc15',
                             yellowHover: '#eab308',
-                            bg: '#f0fdfa'       /* Velmi lehký tyrkysový nádech na pozadí */
+                            bg: '#f0fdfa'
                         }
                     },
                     fontFamily: {
@@ -33,20 +33,12 @@
         body { font-family: 'Inter', sans-serif; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Plynulé přechody pro interaktivní prvky */
-        .transition-smooth {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        /* Animace pro načtení modálu */
+        .transition-smooth { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes scaleIn {
             from { transform: scale(0.95); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
-        .animate-scale-in {
-            animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        .animate-scale-in { animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
 <body class="bg-teal-50/30 dark:bg-slate-900 text-slate-900 dark:text-slate-100 pb-20 transition-colors duration-300">
@@ -60,7 +52,7 @@
         const { useState, useMemo, useEffect } = React;
         const e = React.createElement;
 
-        // Bezpečné načítání ikon bez JSX
+        // Bezpečné vykreslení ikon přes Lucide
         const Icon = ({ name, className }) => {
             useEffect(() => { 
                 if (typeof lucide !== 'undefined' && lucide.createIcons) {
@@ -70,7 +62,7 @@
             return e('i', { 'data-lucide': name, className: className });
         };
 
-        // Kompletní původní databáze vašich projektů zachovaná na 100 %
+        // Vaše kompletní databáze 34 projektů
         const PROJECTS_DATA = [
             {
                 "id": "atletika-kamaradka",
@@ -91,4 +83,612 @@
                 "days": ["ČT"],
                 "leaderType": "studentský",
                 "capacity": "40 studentů",
-                "target": "Pro všechny hráče, straté
+                "target": "Pro všechny hráče, stratégy a ty, kteří si chtějí před prázdninami odpočinout u dobrých her.",
+                "warning": "Tvou jedinou povinností bude během dopoledne otestovat minimálně dvě pro tebe zatím neznámé hry. Můžeš přinést i vlastní!",
+                "annotation": "Přijď si před prázdninami „odpočinout“, poměřit síly se spolužáky a načerpat inspiraci, co hrát o volných dnech. Cílem je užít si skvělé herní dopoledne a prozkoumat deskové hry a mechaniky, které ještě neznáš. Každých 45 minut se všichni prostřídáme u stolů, takže si zahraješ v různých týmech a s novými lidmi. Školní zásoba je velká, ale klidně přines svou oblíbenou deskovku a nauč ji ostatní!"
+            },
+            {
+                "id": "detektivem-na-den-st",
+                "title": "Detektivem na jeden den",
+                "years": ["NG", "VG"],
+                "days": ["ST", "ČT"],
+                "leaderType": "studentský",
+                "capacity": "20 studentů",
+                "target": "Pro fanoušky záhad, únikových her, šifer, týmové spolupráce a logického uvažování.",
+                "warning": "Budete se pohybovat i venku na zahradě, zvolte vhodné oblečení podle počasí.",
+                "annotation": "Ve škole se stal zločin a vyšetřovací tým tvoříte vy! V tomhle napínavém studentském projektu se ve čtyřčlenných týmech pustíte do rozplétání smyšleného kriminálního případu. Na začátku dostanete spis a seznam pěti podezřelých. Každý z nich má svůj vlastní příběh, ale jeden z nich prokazatelně lže. Vaším úkolem bude prohledat školu i zahradu, najít skryté šifry, hádanky a indicie, které vás dovedou k dalším stopám. Na konci projektového dne pak každý tým představí svého hlavního podezřelého a obhájí důkazy, které ho usvědčují. Dokážete odhalit pachatele dřív, než vyprší čas?"
+            },
+            {
+                "id": "deutsche-aussprache",
+                "title": "Deutsche Aussprache - mluvte jako rodilý mluvčí",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "15 studentů",
+                "target": "Projekt je určen pro němčináře od tercie do 3. ročníku.",
+                "warning": "Nebojte se, nikdo vás nebude zkoušet, jde o čistě praktický a zábavný trénink.",
+                "annotation": "Bojuješ s německým „ch“, tvrdým začátkem nebo správným přízvukem? Nemusíš! V tomto praktickém minikurzu se zaměříme na triky, jak radikálně zlepšit svou německou výslovnost. Zbav se ostychu a začni znít sebevědomě jako rodilý mluvčí."
+            },
+            {
+                "id": "divadelni-hratky-ng",
+                "title": "Divadelní hrátky (pro NG)",
+                "years": ["NG"],
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "20 studentů",
+                "location": "DDM Ostrov Slaný",
+                "target": "Pro ty, kteří chtějí odhodit ostych, bavit se a vyzkoušet si divadelní improvizaci v bezva partě.",
+                "warning": "Cena: 90 Kč za studenta. Přijď v pohodlném oblečení, ve kterém se ti bude dobře hýbat.",
+                "annotation": "Čekají tě akční dramatické aktivity, divadelní improvizace a hry, kde se zapojíš naplno a odhodíš veškerý ostych. Trochu pohybu, hodně tvoření, ale hlavně kupa zábavy a skvělá parta lidí. Přijď v pohodlném oblečení, ve kterém se ti bude dobře hýbat."
+            },
+            {
+                "id": "divadelni-hratky-vg",
+                "title": "Divadelní hrátky (pro VG)",
+                "years": ["VG"],
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "capacity": "20 studentů",
+                "location": "DDM Ostrov Slaný",
+                "target": "Pro ty, kteří chtějí odhodit ostych, bavit se a vyzkoušet si divadelní improvizaci v bezva partě.",
+                "warning": "Cena: 90 Kč za studenta. Přijď v pohodlném oblečení, ve kterém se ti bude dobře hýbat.",
+                "annotation": "Čekají tě akční dramatické aktivity, divadelní improvizace a hry, kde se zapojíš naplno a odhodíš veškerý ostych. Trochu pohybu, hodně tvoření, ale hlavně kupa zábavy a skvělá parta lidí. Přijď v pohodlném oblečení, ve kterém se ti bude dobře hýbat."
+            },
+            {
+                "id": "dva-dny-s-prvni-pomoci",
+                "title": "Dva dny s první pomocí",
+                "years": ["VG"],
+                "days": ["ST", "ČT"],
+                "leaderType": "učitel",
+                "capacity": "6 studentů",
+                "target": "Dvoudenní projekt určený speciálně pro studenty vyššího gymnázia.",
+                "warning": "Ve středu příprava a maskování, ve čtvrtek zážitková realizace pro mladší spolužáky. Zapiš si oba dva dny!",
+                "annotation": "Nauč se první pomoc o něco víc a vyzkoušej si, jak se takový zážitkový kurz připravuje a maskuje! Ve středu projdeš teoretickou i praktickou přípravou, ovládneš základy realistického maskování zranění a nachystáš simulační stanoviště. Ve čtvrtek se pak zapojíš do samotné realizace kurzu a pomůžeš předat základy první pomoci ostatním spolužákům. Získáš tak skvělou inspiraci a know-how, jak podobnou zdravotnickou aktivitu připravit třeba na tábor, dětský kroužek nebo dobrodružnou bojovku."
+            },
+            {
+                "id": "chemicky-koutek-st",
+                "title": "Chemický koutek Jakuba Rašky",
+                "years": ["VG"],
+                "days": ["ST", "ČT"],
+                "leaderType": "studentský",
+                "capacity": "10 studentů",
+                "target": "Dvoudenní projekt pro studenty vyššího gymnázia.",
+                "warning": "Čeká vás čistě praktická týmová práce, uvolněná atmosféra a hotový produkt. Zapiš si oba dva dny!",
+                "annotation": "Výroba vlastního mýdla, produkce biopaliv nebo jednoduché chemické syntézy. To všechno nabízí autorský projekt tvého spolužáka Jakuba Rašky (3.A), který tě zavede do světa aplikované chemie! Čeká vás čistě praktická týmová práce, uvolněná atmosféra a možnost vyzkoušet si reálné technologické postupy, po kterých vám zůstane hotový produkt."
+            },
+            {
+                "id": "francouzsky-duchodce",
+                "title": "Jak se má a co dělá francouzský důchodce?",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "16 studentů",
+                "target": "Pro milovníky francouzské kultury, pohody, dobrého jídla a ručních prací.",
+                "warning": "Součástí programu je háčkování ve třídě, turnaj v pétanque za Kocourem a zmrzlina U Pudilů!",
+                "annotation": "Zažij pravou francouzskou pohodu a zpomal životní tempo! Typický francouzský důchodce nikam nespěchá: dopoledne si pospí, dá si lehký oběd a odpoledne vyráží do parku na partičku pétanque. Jeho žena zase u kávičky a ručních prací probírá život s přítelkyněmi. Přesně tento bezstarostný den plný francouzského šarmu tě čeká i na našem projektu. Co tě čeká: Vyzkoušíš si háčkování v učebně, osvěžíš se u parádního ovocného švédského stolu, zahraješ si turnaj v pétanque za Kocourem a celý den stylově zakončíš skvělou zmrzlinou U Pudilů!"
+            },
+            {
+                "id": "kameny-zmizelych",
+                "title": "Kameny zmizelých ve Slaném",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "12 studentů",
+                "target": "Pro ty, kteří se zajímají o historii 2. světové války, regionální dějiny a silné lidské příběhy.",
+                "warning": "Čeká nás venkovní vyjížďka/procházka dlouhá cca 2,5 km, přizpůsobte tomu obuv.",
+                "annotation": "Možná kolem nich denně chodíš a ani o nich nevíš. Mosazné kostky v dlažbě – Kameny zmizelých (Stolpersteine) – tiše připomínají lidi, kteří v našem městě žili, dokud jejich osudy krutě nepřetrhala 2. světová válka a holocaust. Během tohoto projektu si nejprve přiblížíme historii těchto celosvětově známých památníků. Následně se vydáme na procházku po Slaném. Zastavíme se na pěti konkrétních místech, kde tyto kameny leží, a oživíme zapomenuté příběhy slánských sousedů, kteří se z koncentračních táborů už nikdy nevrátili domů."
+            },
+            {
+                "id": "kamera-a-akce",
+                "title": "Kamera a akce!",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "studentský",
+                "capacity": "15 studentů",
+                "target": "Pro budoucí influencery, herce, střihače, kameramany a tvůrce moderního video obsahu.",
+                "warning": "Vlastní chytrý telefon s nabitou baterií a případně nainstalovaným střihačským programem výhodou.",
+                "annotation": "Chcete se podílet na tvorbě obsahu pro oficiální školní sociální sítě? Zapojit se můžeš přesně tak, jak tě to baví – klidně jen hrát, stříhat, točit a nebo to klidně vyzkoušej všechno! A pokud máš v hlavě nějaký vlastní zajímavý nápad na školní video, sem s ním!"
+            },
+            {
+                "id": "knizni-zavislaci",
+                "title": "Knižní závisláci",
+                "years": ["NG", "VG"],
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "capacity": "15 studentů",
+                "target": "Určeno pro studenty tercie, kvarty a celé vyšší gymnázium.",
+                "warning": "P.S.: Rozečtená knížka bezpodmínečně s sebou!",
+                "annotation": "Čteš si ve škole tajně pod lavicí a knížky jsou tvoje droga? Konečně legální prostor pro tvou závislost! Přijď se s námi podělit o své nejlepší čtenářské zážitky, diskutovat o oblíbených hrdinech a hlavně načerpat skvělou inspiraci, co číst v létě u vody."
+            },
+            {
+                "id": "linoryt-textil-st",
+                "title": "Linoryt na textilní tašku a papír",
+                "years": ["NG", "VG"],
+                "days": ["ST", "ČT"],
+                "leaderType": "učitel",
+                "capacity": "15 studentů",
+                "location": "DDM SLANÝ",
+                "target": "Zájemci o design, kreativní tvorbu a tradiční grafické techniky.",
+                "warning": "Cena: 200 Kč za studenta (včetně veškerého materiálu i samotné plátěné tašky). Doporučujeme starší triko.",
+                "annotation": "Vyzkoušej si tradiční grafickou techniku a odnes si domů originální kousek do svého šatníku! Na tomto kreativním workshopu se naučíš základy linorytu od teorie až po samotnou praxi. Navrhneš si vlastní motiv, vyřežeš ho do lina a následně si jím potiskneš papír a plátěnou textilní tašku, kterou pak můžeš hrdě nosit."
+            },
+            {
+                "id": "mazoretky",
+                "title": "Mažoretky",
+                "years": ["NG"],
+                "days": ["ST", "ČT"],
+                "leaderType": "studentský",
+                "capacity": "15 studentů",
+                "target": "Projekt je otevřený pro úplné začátečníky i pokročilé – nejdůležitější je chuť zkusit něco nového.",
+                "warning": "S sebou si vezměte sportovní oblečení a dobrou náladu.",
+                "annotation": "Pronikni do světa mažoretkového sportu, který v sobě spojuje tanec, rytmus a eleganci! Během tohoto projektu tě čeká ukázka profesionálních základů, práce s hůlkou a nácvik správného držení těla. Společně se naučíme jednoduchou, ale efektní sestavu na chytlavou hudbu. Projekt je otevřený pro úplné začátečníky i pokročilé – nejdůležitější je chuť zkusit něco nového, zasmát se a užít si společný pohyb."
+            },
+            {
+                "id": "na-den-mistostarostou",
+                "title": "Na den místostarostou",
+                "years": ["VG"],
+                "days": ["ČT"],
+                "leaderType": "host z praxe",
+                "location": "Městský úřad Slaný",
+                "capacity": "5 studentů",
+                "target": "Pro zájemce o věci veřejné z řad vyššího gymnázia.",
+                "warning": "Vyžaduje se aktivní účast a formulování názorů.",
+                "annotation": "Zajímá tě, jak se reálně řídí město? Pak máš jedinečnou možnost prožít běžný pracovní day po boku člena vedení města. Absolvuješ schůzky s vedoucími odborů dopravy i životního prostředí a zapojíš se do pracovní skupiny městských architektů. Budeš tak mít přímý vliv na oblasti, které nejvíc ovlivňují náš každodenní život ve městě. Na schůzkách nebudeš jen pasivním pozorovatelem – naopak! Pro tenhle projekt hledáme lidi, kteří se nebojí říct svůj názor, protože jejich postřehy budou mít reálnou váhu a pomohou přímo spoluvytvářet podobu města. Na závěr tě čeká neformální debata s místostarostou, kde s ním můžeš probrat, co se ti ve městě líbí nebo co bys naopak změnil(a), a společně vytvoříte mediální výstup pro městské sociální sítě."
+            },
+            {
+                "id": "netovicka-stran",
+                "title": "Netovická stráň zvídavá i pracovní",
+                "years": ["NG", "VG"],
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "capacity": "30 studentů",
+                "location": "Netovická stráň",
+                "target": "Pro ty, kteří chtějí strávit den v přírodě na čerstvém vzduchu a pomoci lokálnímu ekosystému.",
+                "warning": "Pracovní oblečení, pevná obuv a rukavice s sebou. Za odměnu si na konci společně opečeme buřty!",
+                "annotation": "Chceš udělat něco užitečného pro přírodu a zároveň strávit den na čerstvém vzduchu? V první části projektu se seznámíš s lokální přírodou a Netovickou strání. Potom společně přiložíme ruku k dílu při hrabání posečené trávy, abychom pomohli zdejšímu ekosystému. Bonus na závěr: Za odměnu si na konci společně opečeme buřty!"
+            },  
+            {
+                "id": "neviditelne-hranice",
+                "title": "Neviditelné hranice",
+                "years": ["VG"],
+                "days": ["ST"],
+                "leaderType": "studentský",
+                "capacity": "15 studentů",
+                "target": "Pro studenty vyššího gymnázia, které zajímá aktuální dění ve světě, mezinárodní vztahy a chtějí pochopit globální konflikty v širších souvislostech.",
+                "warning": "Projekt vyžaduje aktivní zapojení při diskusích a analýze map. Notebook nebo chytrý telefon s připojením na internet se bude hodit.",
+                "annotation": "Myslíš si, že se globální události dějí jen tak náhodou? Ve světě geopolitiky má všechno svůj skrytý historický, geografický nebo kulturní důvod. Přijď s námi poodhalit neviditelné nitky, které hýbou dnešním světem. Zaměříme se na detailní rozbor nejžhavějších regionů současnosti – od Ukrajiny a postsovětského prostoru přes Blízký východ až po dynamický Indo-Pacifik."
+            },
+            {
+                "id": "od-lupy-k-mikroskopu-st",
+                "title": "Od lupy po elektronový mikroskop (pro NG)",
+                "years": ["NG"],
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "10 studentů",
+                "target": "Pro všechny zvídavé studenty nižšího gymnázia, které láká pozorování mikrosvěta.",
+                "warning": "Budeme pracovat s jemnou optikou a laboratorní technikou.",
+                "annotation": "Ponoř se s námi do fascinujícího světa, který je lidskému oku neviditelný. Ukážeme si, jak a čím lze pozorovat taje mikrosvěta. Podíváme se na to, jak se pozorovací technika historicky vyvíjela, na co se které přístroje hodí a naučíte se s nimi sami pracovat."
+            },
+            {
+                "id": "od-lupy-k-mikroskopu-ct",
+                "title": "Od lupy po elektronový mikroskop (pro VG)",
+                "years": ["VG"],
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "capacity": "10 studentů",
+                "target": "Pro všechny zvídavé studenty vyššího gymnázia, které láká pozorování mikrosvěta.",
+                "warning": "Budeme pracovat s jemnou optikou a laboratorní technikou.",
+                "annotation": "Ponoř se s námi do fascinujícího světa, který je lidskému oku neviditelný. Ukážeme si, jak a čím lze pozorovat taje mikrosvěta. Podíváme se na to, jak se pozorovací technika historicky vyvíjela, na co se které přístroje hodí a naučíte se s nimi sami pracovat."
+            },
+            {
+                "id": "laborky-girlz",
+                "title": "Pokusy s Laborky Girlz",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "studentský",
+                "capacity": "10 studentů",
+                "target": "Pro všechny nadšence do pokusů a vědy.",
+                "warning": "Přijďte zvídaví, experimenty v běžných hodinách nezažijete.",
+                "annotation": "Sestup do podzemí a odhal, co se děje za dveřmi Laborek! Laborky Girlz tě provedou jejich sklepní základnou, poodhalí tajemství fascinujících vědeckých pokusů a ty nejlepší tě samy naučí. Přijď se podívat na vědu z úplně jiné perspektivy a vyzkoušej si experimenty, které v běžných hodinách nezažiješ."
+            },
+            {
+                "id": "poznej-rozdelov",
+                "title": "Poznej Rozdělov",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "20 studentů",
+                "location": "Kladno - Rozdělov",
+                "target": "Pro milovníky architektury, urbanismu, moderní historie a terénního průzkumu měst.",
+                "warning": "Akce probíhá mimo areál školy. Počítejte s výjezdem a náklady na dopravu.",
+                "annotation": "Vydej se na dobrodružný terénní výzkum jednoho z nejzajímavějších a architektonicky nejcennějších sídlišť v celé České republice. V rámci výjezdu na Kladno navštívíme unikátní Muzeum věžáků, prozkoumáme místní biopark Veolia a vyzkoušíme si, jak probíhá skutečný terénní výzkum přímo v historických ulicích Rozdělova."
+            },
+            {
+                "id": "prvni-pomoc-zazitek",
+                "title": "První pomoc v každém věku: Zážitkový kurz",
+                "years": ["NG"],
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "capacity": "12 studentů",
+                "target": "Pro každého, kdo chce získat skutečné sebevědomí a praktické dovednosti při záchraně života.",
+                "warning": "Žádná suchá teorie, ale čistá realita! Situace budou věrohodně simulovány.",
+                "annotation": "Nauč se správně reagovat, když jde v reálném životě do tuhého, a vyzkoušej si první pomoc v praxi. Tvoji starší spolužáci pro tebe v areálu školy připraví stanoviště plná věrohodně namaskovaných zranění a krizových situací. Celý okruh si projdeš jako aktivní zachránce a odneseš si neprůstřelné praktické základy, které ti jednou mohou pomoci zachránit lidský život. Žádná suchá teorie, ale čistá realita!"
+            },
+            {
+                "id": "psavci-sobe-st",
+                "title": "Psavci sobě",
+                "years": ["NG", "VG"],
+                "days": ["ST", "ČT"],
+                "leaderType": "učitel",
+                "capacity": "10 studentů",
+                "target": "Máš v hlavě příběhy, které chceš dát na papír? Nebo si píšeš básničky do šuplíku? Tento projekt je pro tebe.",
+                "warning": "Přines si své oblíbené psací potřeby, zápisník nebo notebook.",
+                "annotation": "Bylo nebylo, ve sluncem zalité učebně seděla skupinka mladých lidí a chvíle ticha přerušoval jen zvuk propisek kmitajících po papíře. Ptáte se, co tam dělali? Fantazírovali. O světech, lidech a emocích. Chcete se přidat? Ať už se psaním začínáte, nebo už nějakou dobu píšete do šuplíku, ať už vás baví detektivky, romantasy, nebo historické romány, přijďte a popusťte uzdu své fantazii. Pojďme psát, sdílet a užívat si tvůrčí flow."
+            },
+            {
+                "id": "reality-shows",
+                "title": "Reality Shows: Velká školní výzva",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "studentský",
+                "capacity": "20 studentů",
+                "target": "Pro fanoušky soutěží, her a týmových výzev.",
+                "warning": "Budeš sbírat imunity, získávat výhody a bojovat o vítězství pod tlakem.",
+                "annotation": "Zažij atmosféru oblíbených televizních show na vlastní kůži v jedinečném projektu tvých spolužáků! Během tohoto intenzivního soutěžního dne tě čeká mix vědomostních, fyzických, logických i sociálních výzev. Vyzkoušíš si týmovou strategii v Survivoru, napínavé duely z AZ-kvízu, kreativní MasterChefův „tajný box“, zábavné hry z Love Islandu, smyslovou arénu i bleskovou únikovku. Budeš sbírat imunity, získávat výhody a bojovat o vítězství. Dokážeš se správně rozhodovat pod tlakem a dojít až do velkého finále?"
+            },
+            {
+                "id": "robohackathon",
+                "title": "Robohackathon: Zachraň bio-laboratoř!",
+                "years": ["NG", "VG"],
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "capacity": "16 studentů",
+                "target": "Pro ty, co rádi řeší komplexní logické úkoly a chtějí zažít hackathon.",
+                "warning": "Dostaneš do ruky bionického psa, autonomní tank nebo robotické rameno a AI za záda.",
+                "annotation": "Poplach! V tajné biologické laboratoři došlo k havárii a pro lidi je vstup příliš nebezpečný. Jedinou nadějí na záchranu vzorků a převoz protilátky je nasazení mechanické čety. Čeká tě intenzivní robotická výzva pod časovým tlakem. Žnadné nudné návody – dostaneš k dispozici bionického psa, autonomní tank nebo robotické rameno a s AI za zády budeš muset se svým týmem naprogramovat stroje tak, aby zvládly projít zamořeným labyrintem a překonat překážky. Ideální projekt pro ty, co rádi řeší komplexní logické úkoly a chtějí zažít hackathon ve své ryzí podobě!"
+            },
+            {
+                "id": "roboticky-fotbal-st",
+                "title": "Robotický fotbal",
+                "years": ["NG", "VG"],
+                "days": ["ST", "ČT"],
+                "leaderType": "učitel",
+                "capacity": "8 studentů",
+                "target": "Stavba a programování LEGO robotů řízených micro:bity.",
+                "warning": "V učebně jsou k dispozici školní notebooky, klidně si ale přines vlastní.",
+                "annotation": "Postav si vlastního robota z LEGA a doveď ho k vítězství ve velkém fotbalovém turnaji! V tomhle projektu tě čeká konstrukce stroje poháněného micro:bitem. Tvým úkolem bude navrhnout a sestavit robota tak, aby splnil herní kritéria a na hřišti tě poslouchal na každé kliknutí dálkového ovladače. Cíl je jasný: nastřílet soupeřům víc gólů, než dají oni tobě. Vyzkoušíš si základy robotiky, mechaniky a hlavně si užiješ pořádnou porci napínavé hry."
+            },
+            {
+                "id": "s-medem-za-zady",
+                "title": "S medem za zády: Asistent včelařských exkurzí",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "host z praxe",
+                "capacity": "16 studentů",
+                "location": "Královice",
+                "target": "Pokud tě baví práce s dětmi a chceš si vyzkoušet roli vedoucího.",
+                "warning": "Doprava zajištěna. Projekt není vhodný pro alergiky na včelí bodnutí a lidi se strachem ze včel.",
+                "annotation": "Pomáhej jako průvodce dětí z MŠ a ZŠ na velké včelařské akci v Královicích! Doprovodíš skupiny dětí po naučné stezce, nahlédneš do živých úlů a zapojíš se do vytáčení i ochutnávky toho nejčerstvějšího medu. Skvělá příležitost, pokud tě baví práce s dětmi a chceš si vyzkoušet roli vedoucího."
+            },
+            {
+                "id": "setup-it-uceben",
+                "title": "Setup IT učeben",
+                "years": ["VG"],
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "12 studentů",
+                "target": "Pro zručné, trpělivé a manuálně zaměřené studenty vyššího gymnázia.",
+                "warning": "Hledáme lidi, kteří se nebojí hardwaru a chtějí po sobě nechat kus viditelné práce.",
+                "annotation": "Staň se součástí týmu, který na naší škole buduje dvě zbrusu nové počítačové učebny! První sice už funguje, ale pořád zbývá spousta detailů k dotažení – od precizního vedení kabelů až po zapojení a kalibraci 3D tiskáren. V té druhé nás čeká kompletní oživení techniky a zapojování počítačů. Hledáme zručné, trpělivé a zodpovědné lidi s chutí pracovat manuálně, kteří se nebojí hardwaru a chtějí po sobě ve škole nechat kus viditelné a užitečné práce."
+            },
+            {
+                "id": "skotska-kultura",
+                "title": "Skotská kultura a sporty",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "studentský",
+                "capacity": "20 studentů",
+                "target": "Seznámení se zvyky a pravé skotské hry Highland Games.",
+                "warning": "Sportovní oblečení a obuv na ven jsou nutností! Žáci NG budou mít lehčí pomůcky.",
+                "annotation": "Skotsko nejsou jen sukně a dudy! V první části projektu tě čeká interaktivní seznámení se skotskými zvyky a tradicemi, v té druhé pak uspořádáme pravé (ale bezpečné) skotské hry Highland Games. Vyzkoušíte si tradiční disciplíny jako hod kládou, vrh kamenem, hod slámou, přetahování lanem nebo rugby běh. Sportovní oblečení a obuv na ven jsou nutností!"
+            },
+            {
+                "id": "svet-letadel-ct",
+                "title": "Svět dopravních letadel: Workshop s pilotem",
+                "years": ["NG", "VG"],
+                "days": ["ČT"],
+                "leaderType": "host z praxe",
+                "capacity": "50 studentů",
+                "target": "Pro budoucí piloty a fanoušky letectví a techniky.",
+                "warning": "Čeká tě otevřená diskuze s kapitánem Štěpánem Kolomazníkem a 3 praktické výzvy.",
+                "annotation": "Boeing, nebo Airbus? Které letadlo je lepší a jak se liší jejich pilotování? Prozkoumej zákulisí letectví s kapitánem Štěpánem Kolomazníkem, který pilotoval oba stroje! Čeká tě promítání jeho filmu, otevřená diskuze a hlavně tři praktické výzvy. V týmu vymyslíš řešení krizové situace ve vzduchu, s pomocí AI navrhneš letadlo budoucnosti a v konstrukční soutěži otestuješ aerodynamiku vlastních modelů. Své nápady a výtvory pak přímo zkonzultuješ se Štěpánem, který ti na rovinu řekne, jak by (ne)fungovaly v reálném provozu. Přijď tvořit a zjistit, jak se létá ve velkém stylu!"
+            },
+            {
+                "id": "skola-siti",
+                "title": "Škola šití",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "studentský",
+                "capacity": "4 studenti",
+                "target": "Všem, kteří chtějí zkusit něco nového, rozvíjet kreativitu a tvořit rukama.",
+                "warning": "Velmi omezený počet míst z důvodu malého prostoru v místnosti.",
+                "annotation": "V projektu si vyzkoušíte práci se šicím strojem a naučíte se základy šití. Během dne si ušijete vlastní látkovou tašku, kterou si odnesete domů. Projekt je určen všem, kteří chtějí zkusit něco nového, rozvíjet svou kreativitu a vytvořit si něco praktického vlastníma rukama."
+            },
+            {
+                "id": "uceni-neni-muceni",
+                "title": "Učení není mučení",
+                "years": ["NG"],
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "location": "Slaný",
+                "capacity": "25 studentů",
+                "target": "Pro milovníky tajemství, historie a příběhů našeho města.",
+                "warning": "S sebou 50 Kč na drobné výdaje/vstupné (vyjma studentů sekundy, kteří mají projekt zdarma).",
+                "annotation": "Myslíš si, že historie Slaného je nuda? OMYL! Vyraz s námi na akční literárně-historickou procházku městem, kde budeme objevovat skrytá tajemství a příběhy našich předků. Celou procházku zakončíme zábavnou soutěží."
+            },
+            {
+                "id": "vojensky-skanzen-smecno-st",
+                "title": "Vojenský skanzen Smečno",
+                "years": ["NG", "VG"],
+                "days": ["ST", "ČT"],
+                "leaderType": "učitel",
+                "location": "Smečno",
+                "capacity": "15 studentů",
+                "target": "Zajímá tě vojenská historie a opevnění?",
+                "warning": "Zpátky do Slaného se vrátíme pěšky příjemnou procházkou. Součástí výpravy je i projekt Historie zbraní.",
+                "annotation": "Zajímá tě vojenská historie a opevnění? Pojď s námi prozkoumat unikátní vojenský skanzen ve Smečně. Prohlédneme si historické bunkry (řopíky), vojenskou techniku a dozvíš se spoustu zajímavostí o obraně naší republiky. Ve středu navíc program obohatí studentský projekt Tomáše Macháčka zaměřený na historii střelných zbraní, kde zjistíš, jak se vyvíjela jejich konstrukce. Zpátky do Slaného se pak vrátíme pěšky příjemnou procházkou."
+            },
+            {
+                "id": "vylet-s-tajnym-cilem",
+                "title": "Výlet s tajným cílem",
+                "years": ["NG", "VG"],
+                "days": ["ČT"],
+                "leaderType": "učitel",
+                "capacity": "12 studentů",
+                "location": "mimo školu ;-)",
+                "target": "Máš rád překvapení a výzvy? Pak je tento výlet přesně pro tebe.",
+                "warning": "Cestu a cíl budeš muset odhalit sám pomocí indicií a šifer v cizím jazyce!",
+                "annotation": "Máš rád překvapení a výzvy? Pak je tento výlet přesně pro tebe. Vyrazíme do okolí Slaného, ale kam přesně to bude, ti neprozradíme. Cestu a cíl totiž budeš muset odhalit sám pomocí indicií a pokynů – a abychom si to trochu ztížili, všechny šifry budou v cizím jazyce!"
+            },
+            {
+                "id": "vyvoj-jadernych-zbrani",
+                "title": "Vývoj jaderných zbraní a their nebezpečnost",
+                "years": ["NG", "VG"],
+                "days": ["ST"],
+                "leaderType": "učitel",
+                "capacity": "20 studentů",
+                "target": "Pro zájemce o moderní dějiny, fyziku a mrazivé milníky lidstva.",
+                "warning": "Podíváme se na fyzikální principy nukleárních zbraní a jejich reálné účinky.",
+                "annotation": "Jak funguje nejničivější zbraň v lidské historii a jak blízko byla planeta svému zániku? Tento projekt tě provede fascinujícím, ale i mrazivým příběhem vývoje atomové bomby za 2. světové války. Podíváme se na fyzikální principy nukleárních zbraní, jejich reálné účinky a nebezpečí radioaktivního záření, které lidstvo ohrožuje dodnes."
+            }
+        ];
+
+        const App = () => {
+            const [selectedProject, setSelectedProject] = useState(null);
+            const [searchQuery, setSearchQuery] = useState("");
+            const [filterYear, setFilterYear] = useState("ALL");
+            const [filterDay, setFilterDay] = useState("ALL");
+            const [filterLeader, setFilterLeader] = useState("ALL");
+            const [statusModal, setStatusModal] = useState(false);
+
+            const openTime = new Date('2026-05-18T08:00:00');
+            const closeTime = new Date('2026-05-22T16:00:00');
+            const formUrl = "https://forms.gle/4w7m44qgYFdfNfXN8";
+
+            const filteredProjects = useMemo(() => {
+                return PROJECTS_DATA.filter(p => {
+                    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                        (p.location && p.location.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                                        p.id.toLowerCase().includes(searchQuery.toLowerCase());
+                    const matchesYear = filterYear === "ALL" || p.years.includes(filterYear);
+                    const matchesDay = filterDay === "ALL" || p.days.includes(filterDay);
+                    const matchesLeader = filterLeader === "ALL" || p.leaderType === filterLeader;
+                    return matchesSearch && matchesYear && matchesDay && matchesLeader;
+                });
+            }, [searchQuery, filterYear, filterDay, filterLeader]);
+
+            const handleApply = () => {
+                const now = new Date();
+                if (now < openTime || now > closeTime) {
+                    setStatusModal(true);
+                } else {
+                    window.open(formUrl, '_blank');
+                }
+            };
+
+            const formatDateTime = (date) => {
+                return date.toLocaleDateString('cs-CZ', {
+                    day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                }) + ' hod.';
+            };
+
+            return e('div', { className: 'min-h-screen bg-teal-50/10 dark:bg-slate-950 transition-colors duration-300 font-sans' },
+                e('header', { className: 'bg-white/80 dark:bg-slate-900/80 border-b border-teal-100 dark:border-slate-800 sticky top-0 z-30 shadow-sm backdrop-blur-md px-4 py-5 transition-colors duration-300' },
+                    e('div', { className: 'max-w-6xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4' },
+                        e('div', { className: 'flex items-center gap-4 w-full lg:w-auto' },
+                            e('div', { className: 'bg-brand-dark p-2.5 rounded-2xl text-white shadow-md' },
+                                e(Icon, { name: 'calendar', className: 'w-6 h-6' })
+                            ),
+                            e('div', null,
+                                e('h1', { className: 'text-xl font-black uppercase tracking-tight text-teal-950 dark:text-teal-400 text-left' }, 'Projektové dny 2026'),
+                                e('p', { className: 'text-xs text-teal-600 dark:text-slate-400 font-bold uppercase tracking-widest text-left' }, 'Gymnázium Slaný')
+                            )
+                        ),
+                        e('div', { className: 'flex flex-col sm:flex-row gap-3 w-full lg:w-auto items-stretch' },
+                            e('input', {
+                                className: 'px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-xl outline-none border border-slate-200 dark:border-slate-700 focus:ring-2 ring-brand-medium/20 focus:border-brand-medium font-medium text-sm transition-smooth sm:w-64',
+                                placeholder: 'Hledat název, místo...',
+                                value: searchQuery,
+                                onChange: e => setSearchQuery(e.target.value)
+                            }),
+                            e('select', {
+                                className: 'px-3 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-xl outline-none border border-slate-200 dark:border-slate-700 font-bold text-xs uppercase tracking-wider',
+                                value: filterYear,
+                                onChange: e => setFilterYear(e.target.value)
+                            },
+                                e('option', { value: 'ALL' }, 'NG + VG (Všechny třídy)'),
+                                e('option', { value: 'NG' }, 'Jen nižší gympl'),
+                                e('option', { value: 'VG' }, 'Jen vyšší gympl')
+                            ),
+                            e('select', {
+                                className: 'px-3 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-xl outline-none border border-slate-200 dark:border-slate-700 font-bold text-xs uppercase tracking-wider',
+                                value: filterDay,
+                                onChange: e => setFilterDay(e.target.value)
+                            },
+                                e('option', { value: 'ALL' }, 'Středa i Čtvrtek'),
+                                e('option', { value: 'ST' }, 'Pouze Středa'),
+                                e('option', { value: 'ČT' }, 'Pouze Čtvrtek')
+                            )
+                        )
+                    )
+                ),
+
+                e('main', { className: 'max-w-6xl mx-auto px-4 py-8' },
+                    e('div', { className: 'bg-gradient-to-br from-brand-dark to-teal-900 rounded-3xl p-8 mb-10 shadow-xl relative overflow-hidden text-white' },
+                        e('div', { className: 'relative z-10 flex flex-col md:flex-row justify-between items-center gap-6' },
+                            e('div', { className: 'text-center md:text-left' },
+                                e('span', { className: 'bg-brand-yellow/20 text-brand-yellow text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest mb-3 inline-block border border-brand-yellow/20' }, 'Zápis studentů'),
+                                e('h3', { className: 'text-2xl font-black mb-1.5 uppercase tracking-tight' }, 'Vyber si svůj projekt'),
+                                e('p', { className: 'text-teal-100/80 text-sm max-w-xl leading-relaxed font-medium' }, 'Prostuduj si nabídku témat. Zápis bude spuštěn přes Google formulář ve stanovený čas.')
+                            ),
+                            e('button', {
+                                onClick: handleApply,
+                                className: 'bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-8 py-4 rounded-2xl font-black shadow-lg transition-smooth hover:scale-[1.03] flex items-center gap-2 uppercase tracking-wider text-sm'
+                            },
+                                e('span', null, 'Přejít k přihlašování'),
+                                e(Icon, { name: 'arrow-up-right', className: 'w-4 h-4' })
+                            )
+                        )
+                    ),
+
+                    e('div', { className: 'flex overflow-x-auto gap-2 mb-8 pb-2 scrollbar-hide' },
+                        [
+                            { id: 'ALL', label: 'Všechny projekty' },
+                            { id: 'učitel', label: 'Vedené učitelem' },
+                            { id: 'studentský', label: 'Studentské projekty' },
+                            { id: 'host z praxe', label: 'Hosté z praxe' }
+                        ].map(item => e('button', {
+                            key: item.id,
+                            onClick: () => setFilterLeader(item.id),
+                            className: `px-4 py-2 rounded-full text-[11px] font-black transition-smooth whitespace-nowrap border uppercase ${filterLeader === item.id ? 'bg-brand-dark text-white border-brand-dark shadow-sm' : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'}`
+                        }, item.label))
+                    ),
+
+                    e('div', { className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' },
+                        filteredProjects.map(p => e('div', {
+                            key: p.id,
+                            onClick: () => setSelectedProject(p),
+                            className: 'bg-white dark:bg-slate-900 p-6 rounded-2xl border border-teal-100/60 dark:border-slate-800/80 shadow-sm hover:shadow-xl hover:scale-[1.01] transition-smooth cursor-pointer flex flex-col group'
+                        },
+                            e('div', { className: 'flex justify-between items-center mb-4' },
+                                e('div', { className: 'flex gap-1' },
+                                    p.days.map(d => e('span', { key: d, className: 'bg-brand-bg dark:bg-teal-950/60 text-brand-dark dark:text-brand-light text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider' }, d)),
+                                    p.years.map(y => e('span', { key: y, className: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider' }, y))
+                                ),
+                                e('span', { className: 'text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1' },
+                                    e(Icon, { name: 'users', className: 'w-3 h-3' }), p.capacity
+                                )
+                            ),
+                            e('h4', { className: 'font-extrabold text-lg mb-2 leading-snug text-slate-900 dark:text-slate-100 group-hover:text-brand-medium dark:group-hover:text-brand-light transition-colors text-left' }, p.title),
+                            e('p', { className: 'text-xs font-semibold text-teal-700 dark:text-teal-400 mb-4 uppercase tracking-wider text-left flex items-center gap-1' }, 
+                                e(Icon, { name: 'bookmark', className: 'w-3 h-3' }), p.leaderType
+                            ),
+                            e('p', { className: 'text-slate-500 dark:text-slate-400 text-sm line-clamp-3 mb-6 leading-relaxed text-left' }, p.annotation),
+                            
+                            e('div', { className: 'mt-auto pt-4 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between text-brand-dark dark:text-brand-light text-[11px] font-black uppercase tracking-wider' },
+                                e('span', null, 'Zobrazit detaily'),
+                                e(Icon, { name: 'chevron-right', className: 'w-4 h-4 group-hover:translate-x-1 transition-transform' })
+                            )
+                        ))
+                    )
+                ),
+
+                selectedProject && e('div', { className: 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm', onClick: () => setSelectedProject(null) },
+                    e('div', { className: 'bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative border border-teal-500/10 max-h-[90vh] flex flex-col animate-scale-in', onClick: e => e.stopPropagation() },
+                        e('button', { onClick: () => setSelectedProject(null), className: 'absolute top-6 right-6 p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-slate-500 z-10' },
+                            e(Icon, { name: 'x', className: 'w-4 h-4' })
+                        ),
+                        
+                        e('div', { className: 'p-6 md:p-10 overflow-y-auto' },
+                            e('div', { className: 'flex flex-wrap items-center gap-1.5 mb-4' },
+                                selectedProject.days.map(d => e('span', { key: d, className: 'bg-brand-dark text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider' }, `Den: ${d}`)),
+                                selectedProject.years.map(y => e('span', { key: y, className: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider' }, `Určeno: ${y}`)),
+                                e('span', { className: 'text-slate-400 dark:text-slate-500 font-bold uppercase text-[10px] tracking-wider ml-auto' }, selectedProject.leaderType)
+                            ),
+                            e('h2', { className: 'text-2xl md:text-3xl font-black leading-tight text-slate-900 dark:text-white mb-4 uppercase tracking-tight text-left' }, selectedProject.title),
+                            
+                            e('div', { className: 'space-y-6' },
+                                e('div', null,
+                                    e('h5', { className: 'text-[10px] font-black uppercase text-brand-medium dark:text-brand-light mb-2 tracking-widest text-left' }, 'Anotace projektu'),
+                                    e('p', { className: 'text-slate-600 dark:text-slate-300 leading-relaxed text-sm font-medium text-left whitespace-pre-line' }, selectedProject.annotation)
+                                ),
+                                
+                                selectedProject.warning && e('div', { className: 'p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 rounded-2xl text-left' },
+                                    e('h5', { className: 'text-[10px] font-black uppercase text-amber-700 dark:text-amber-400 mb-1 tracking-widest flex items-center gap-1' }, 
+                                        e(Icon, { name: 'alert-triangle', className: 'w-3 h-3' }), 'Důležité upozornění / Pomůcky'
+                                    ),
+                                    e('p', { className: 'text-xs font-semibold text-amber-900 dark:text-amber-300/90 leading-relaxed' }, selectedProject.warning)
+                                ),
+
+                                e('div', { className: 'grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-slate-100 dark:border-slate-800/80 text-left' },
+                                    e('div', null,
+                                        e('h5', { className: 'text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 mb-1 tracking-widest' }, 'Pro koho'),
+                                        e('p', { className: 'text-xs font-bold text-slate-700 dark:text-slate-300' }, selectedProject.target)
+                                    ),
+                                    selectedProject.location && e('div', null,
+                                        e('h5', { className: 'text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 mb-1 tracking-widest' }, 'Místo konání'),
+                                        e('p', { className: 'text-xs font-bold text-slate-700 dark:text-slate-300' }, selectedProject.location)
+                                    ),
+                                    e('div', null,
+                                        e('h5', { className: 'text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 mb-1 tracking-widest' }, 'Celková kapacita'),
+                                        e('p', { className: 'text-xs font-bold text-slate-700 dark:text-slate-300' }, selectedProject.capacity)
+                                    )
+                                )
+                            )
+                        ),
+                        e('div', { className: 'bg-slate-50 dark:bg-slate-900/40 p-4 flex justify-end gap-2 border-t border-slate-100 dark:border-slate-800/60' },
+                            e('button', { onClick: () => setSelectedProject(null), className: 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-6 py-2.5 rounded-xl font-black uppercase text-[11px] hover:bg-slate-300 dark:hover:bg-slate-700 transition-all tracking-wider' }, 'Zavřít detail')
+                        )
+                    )
+                ),
+
+                statusModal && e('div', { className: 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm', onClick: () => setStatusModal(false) },
+                    e('div', { className: 'bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-8 shadow-2xl relative text-center', onClick: e => e.stopPropagation() },
+                        e('div', { className: `w-12 h-12 rounded-full mx-auto flex items-center justify-center mb-4 ${new Date() < openTime ? 'bg-amber-100 dark:bg-amber-950/40 text-amber-600' : 'bg-rose-100 dark:bg-rose-950/40 text-rose-600'}` },
+                            e(Icon, { name: new Date() < openTime ? 'clock' : 'alert-circle', className: 'w-6 h-6' })
+                        ),
+                        e('h3', { className: 'text-xl font-black uppercase text-slate-900 dark:text-white mb-2' }, new Date() < openTime ? 'Zápis ještě nebyl spuštěn' : 'Zápis byl již ukončen'),
+                        e('div', { className: 'space-y-2 text-sm text-slate-500 dark:text-slate-400 font-medium mb-6' },
+                            e('p', null, 'Přihlašování probíhá pouze v určeném termínu:'),
+                            e('div', { className: 'bg-slate-50 dark:bg-slate-800/40 p-3 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 space-y-1' },
+                                e('p', null, `Od: ${formatDateTime(openTime)}`),
+                                e('p', null, `Do: ${formatDateTime(closeTime)}`)
+                            )
+                        ),
+                        e('div', { className: 'flex flex-col gap-2' },
+                            new Date() > closeTime && e('a', { href: formUrl, target: '_blank', className: 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 py-3 rounded-xl font-black uppercase text-xs tracking-wider transition-smooth hover:bg-slate-800 text-center' }, 'Zkusit otevřít formulář i tak'),
+                            e('button', { onClick: () => setStatusModal(false), className: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 py-3 rounded-xl font-black uppercase text-xs tracking-wider transition-smooth hover:bg-slate-200 dark:hover:bg-slate-700' }, 'Zavřít zprávu')
+                        )
+                    )
+                ),
+
+                e('div', { className: 'fixed bottom-8 right-8 z-40' },
+                    e('button', {
+                        onClick: handleApply,
+                        className: 'bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-6 py-3.5 rounded-full shadow-2xl transition-smooth flex items-center justify-center gap-2 group border border-teal-400/20'
+                    },
+                        e(Icon, { name: 'edit', className: 'w-5 h-5' }),
+                        e('span', { className: 'font-black uppercase text-xs tracking-widest' }, 'Chci se přihlásit')
+                    )
+                ),
+
+                e('footer', { className: 'max-w-6xl mx-auto px-4 py-12 border-t border-teal-100 dark:border-slate-800 text-center mt-12' },
+                    e('p', { className: 'text-slate-400 dark:text-slate-500 text-xs font-black uppercase tracking-[0.3em] mb-2' }, 'Gymnázium Slaný • Projektové dny 2026')
+                )
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(e(App));
+    </script>
+</body>
+</html>
