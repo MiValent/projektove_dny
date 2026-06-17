@@ -28,7 +28,7 @@
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@0.379.0/dist/umd/lucide.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -45,6 +45,7 @@
 <body class="bg-teal-50/30 dark:bg-slate-900 text-slate-900 dark:text-slate-100 pb-20 transition-colors duration-300">
 
     <div id="root" class="min-h-screen">
+        <!-- Hlavička -->
         <header class="relative bg-gradient-to-br from-teal-900 via-teal-850 to-slate-900 text-white overflow-hidden shadow-xl border-b border-teal-500/10">
             <div class="absolute inset-0 opacity-15 mix-blend-overlay">
                 <div class="absolute inset-0 bg-[radial-gradient(#2dd4bf_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -64,14 +65,16 @@
             </div>
         </header>
 
+        <!-- Ovládací panel -->
         <div class="max-w-6xl mx-auto px-4 -mt-6 relative z-20">
-            <div class="bg-white dark:bg-slate-850 p-4 md:p-6 rounded-2xl shadow-xl border border-teal-100/50 dark:border-slate-800/80 space-y-4">
-                <div class="relative">
+            <div class="bg-white dark:bg-slate-850 p-4 md:p-6 rounded-2xl shadow-xl border border-teal-100/50 dark:border-slate-800/80 grid grid-cols-1 md:grid-cols-12 gap-4">
+                <!-- Vyhledávání -->
+                <div class="relative md:col-span-6">
                     <i data-lucide="search" class="absolute left-4 top-3.5 text-slate-400 w-5 h-5"></i>
                     <input 
                         id="searchInput"
                         type="text"
-                        placeholder="Hledat projekt podle názvu, místa nebo klíčového slova..."
+                        placeholder="Hledat projekt podle názvu, místa..."
                         class="w-full bg-slate-50 dark:bg-slate-900/60 pl-12 pr-12 py-3 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-medium/50 text-sm font-medium transition-smooth"
                     />
                     <button id="clearSearch" class="absolute right-4 top-3.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hidden">
@@ -79,43 +82,34 @@
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5 pl-1">Cílová skupina</label>
-                        <select id="filterYear" class="w-full bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-medium/50 transition-smooth cursor-pointer">
-                            <option value="ALL">Všechny třídy (Celá škola)</option>
-                            <option value="NG">Jen Nižší gymnázium (Prima–Kvarta)</option>
-                            <option value="VG">Jen Vyšší gymnázium (Kvinta–Oktáva, S1–S4)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5 pl-1">Den konání</label>
-                        <select id="filterDay" class="w-full bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-medium/50 transition-smooth cursor-pointer">
-                            <option value="ALL">Všechny dny (Středa i Čtvrtek)</option>
-                            <option value="ST">Pouze Středa</option>
-                            <option value="ČT">Pouze Čtvrtek</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5 pl-1">Vedení projektu</label>
-                        <select id="filterLeader" class="w-full bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-medium/50 transition-smooth cursor-pointer">
-                            <option value="ALL">Všichni organizátoři</option>
-                            <option value="učitel">Vedené učitelem</option>
-                            <option value="studentský">Vedené studenty</option>
-                            <option value="host z praxe">Externí host / Expert z praxe</option>
-                        </select>
-                    </div>
+                <!-- Filtry -->
+                <div class="md:col-span-3">
+                    <select id="filterYear" class="w-full bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-medium/50 transition-smooth cursor-pointer h-full">
+                        <option value="ALL">Všechny třídy (Celá škola)</option>
+                        <option value="NG">Jen Nižší gymnázium (Prima–Kvarta)</option>
+                        <option value="VG">Jen Vyšší gymnázium (Kvinta–Oktáva, S1–S4)</option>
+                    </select>
+                </div>
+                <div class="md:col-span-3">
+                    <select id="filterDay" class="w-full bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-medium/50 transition-smooth cursor-pointer h-full">
+                        <option value="ALL">Všechny dny (Středa i Čtvrtek)</option>
+                        <option value="ST">Pouze Středa</option>
+                        <option value="ČT">Pouze Čtvrtek</option>
+                    </select>
                 </div>
             </div>
         </div>
 
+        <!-- Mřížka s projekty -->
         <main id="projectsGrid" class="max-w-6xl mx-auto px-4 py-8"></main>
 
+        <!-- Patička -->
         <footer class="max-w-6xl mx-auto px-4 py-12 border-t border-teal-100 dark:border-slate-800 text-center mt-12">
             <p class="text-slate-400 dark:text-slate-500 text-xs font-black uppercase tracking-[0.3em] mb-2">Gymnázium Slaný • Projektové dny 2026</p>
         </footer>
     </div>
 
+    <!-- Modální okno: Detail projektu -->
     <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden justify-center items-center p-4">
         <div class="bg-white dark:bg-slate-850 w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-teal-500/10 max-h-[90vh] flex flex-col animate-scale-in">
             <div class="p-6 bg-gradient-to-br from-teal-850 to-slate-900 text-white relative">
@@ -180,6 +174,7 @@
         </div>
     </div>
 
+    <!-- Modální okno: Časový zámek -->
     <div id="infoModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden justify-center items-center p-4">
         <div class="bg-white dark:bg-slate-850 w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden border border-teal-500/10 animate-scale-in p-6 space-y-4 text-center">
             <div id="infoModalIconWrapper" class="w-12 h-12 rounded-full flex items-center justify-center mx-auto">
@@ -195,6 +190,7 @@
         </div>
     </div>
 
+    <!-- Plovoucí tlačítko -->
     <div class="fixed bottom-8 right-8 z-40">
         <button id="mainApplyBtn" class="bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-6 py-3.5 rounded-full shadow-2xl transition-smooth flex items-center justify-center gap-2 group border border-teal-400/20 dark:border-yellow-500/30">
             <i data-lucide="pen-tool" class="w-5 h-5"></i>
@@ -202,6 +198,7 @@
         </button>
     </div>
 
+    <!-- JavaScript kód -->
     <script>
         const formUrl = "https://forms.google.com";
         const openTime = new Date('2026-05-12T08:00:00');
@@ -227,7 +224,7 @@
                 "days": ["ČT"],
                 "leaderType": "studentský",
                 "capacity": "40 studentů",
-                "target": "Pro všechny hráče, stratégy a ty, kteří si chtějí před prázdninami odpočinout u dobrých her.",
+                "target": "Pro všechny hráče, stratégy and ty, kteří si chtějí před prázdninami odpočinout u dobrých her.",
                 "warning": "Tvou jedinou povinností bude během dopoledne otestovat minimálně dvě pro tebe zatím neznámé hry. Můžeš přinést i vlastní!",
                 "annotation": "Přijď si před prázdninami odpočinout, poměřit síly se spolužáky a načerpat inspiraci, co hrát o volných dnech. Cílem je užít si skvělé herní dopoledne a prozkoumat deskové hry a mechaniky, které ještě neznáš. Každých 45 minut se všichni prostřídáme u stolů, takže si zahraješ v různých týmech a s novými lidmi. Školní zásoba je velká, ale klidně přines svou oblíbenou deskovku a nauč ji ostatní!"
             },
@@ -296,7 +293,7 @@
                 "leaderType": "studentský",
                 "capacity": "10 studentů",
                 "target": "Dvoudenní projekt pro studenty vyššího gymnázia.",
-                "warning": "Čeká vás čistě praktická týmová práce, uvolněná atmosféra a hotový produkt. Zapiš si oba dva dny!",
+                "warning": "Čeká vás čistí praktická týmová práce, uvolněná atmosféra a hotový produkt. Zapiš si oba dva dny!",
                 "annotation": "Výroba vlastního mýdla, produkce biopaliv nebo jednoduché chemické syntézy. To všechno nabízí autorský projekt tvého spolužáka Jakuba Rašky (3.A), který tě zavede do světa aplikované chemie! Čeká vás čistě praktická týmová práce, uvolněná atmosféra a možnost vyzkoušet si reálné technologické postupy, po kterých vám zůstane hotový produkt."
             },
             {
@@ -308,7 +305,7 @@
                 "capacity": "16 studentů",
                 "target": "Pro milovníky francouzské kultury, pohody, dobrého jídla a ručních prací.",
                 "warning": "Součástí programu je háčkování ve třídě, turnaj v pétanque za Kocourem a zmrzlina U Pudilů!",
-                "annotation": "Zažij pravou francouzskou pohodu a zpomal životní tempo! Typický francouzský důchodce nikam nespěchá: dopoledne si pospí, dá si lehký oběd a odpoledne vyráží do parku na partičku pétanque. Jeho žena zase u kávičky a ručních prací probírá život s přítelkyněmi. Přesně tento bezstarostný den plný francouzského šarmu tě čeká i na našem projektu. Co tě čeká: Vyzkoušíš si háčkování v učebně, osvěžíš se u parádního ovocného švédského stolu, zahraješ si turnaj v pétanque za Kocourem a celý den stylově zakončíš skvělou zmrzlinou U Pudilů!"
+                "annotation": "Zažij pravou francouzskou pohodu a zpomal životní tempo! Typický francouzský důchodce nikam nespěchá: dopoledne si pospí, dá si lehký oběd a odpoledne vyráží do parku na partičku pétanque. Jeho žena zase u kávičky a ručních prací probírá život s přítelkyněmi. Přesně tento bezstarostný day plný francouzského šarmu tě čeká i na našem projektu. Co tě čeká: Vyzkoušíš si háčkování v učebně, osvěžíš se u parádního ovocného švédského stolu, zahraješ si turnaj v pétanque za Kocourem a celý den stylově zakončíš skvělou zmrzlinou U Pudilů!"
             },
             {
                 "id": "kameny-zmizelych",
@@ -553,7 +550,6 @@
         const clearSearch = document.getElementById('clearSearch');
         const filterYear = document.getElementById('filterYear');
         const filterDay = document.getElementById('filterDay');
-        const filterLeader = document.getElementById('filterLeader');
         const projectsGrid = document.getElementById('projectsGrid');
 
         // Modál detailu
@@ -581,12 +577,10 @@
         const infoModalBtn = document.getElementById('infoModalBtn');
         const mainApplyBtn = document.getElementById('mainApplyBtn');
 
-        // Spuštění inicializace ikon po vykreslení
         function refreshIcons() {
             if (window.lucide) window.lucide.createIcons();
         }
 
-        // Formátování odpočtu
         function formatCountdown() {
             const diff = openTime - new Date();
             if (diff <= 0) return "";
@@ -600,21 +594,17 @@
             const searchVal = searchInput.value.toLowerCase();
             const yearVal = filterYear.value;
             const dayVal = filterDay.value;
-            const leaderVal = filterLeader.value;
 
-            // Filtrování dat
             const filtered = PROJECTS_DATA.filter(p => {
                 const matchesSearch = p.title.toLowerCase().includes(searchVal) || 
                                       p.annotation.toLowerCase().includes(searchVal) ||
                                       (p.location && p.location.toLowerCase().includes(searchVal));
                 const matchesYear = yearVal === "ALL" || p.years.includes(yearVal);
                 const matchesDay = dayVal === "ALL" || p.days.includes(dayVal);
-                const matchesLeader = leaderVal === "ALL" || p.leaderType === leaderVal;
 
-                return matchesSearch && matchesYear && matchesDay && matchesLeader;
+                return matchesSearch && matchesYear && matchesDay;
             });
 
-            // Čistící zobrazení křížku vyhledávání
             clearSearch.style.display = searchInput.value ? 'block' : 'none';
 
             if (filtered.length === 0) {
@@ -686,7 +676,6 @@
             refreshIcons();
         }
 
-        // Otevření detailu projektu
         window.openDetail = function(id) {
             const p = PROJECTS_DATA.find(item => item.id === id);
             if (!p) return;
@@ -729,12 +718,10 @@
             refreshIcons();
         };
 
-        // Zavření detailu
         function closeDetail() {
             detailModal.style.display = 'none';
         }
 
-        // Obsluha přihlašovacího tlačítka a stavů času
         let currentModalType = null;
         function handleApplyClick() {
             const now = new Date();
@@ -762,7 +749,6 @@
             refreshIcons();
         }
 
-        // Akce v info modálu
         infoModalBtn.onclick = function() {
             if (currentModalType === 'OPEN') {
                 window.open(formUrl, '_blank');
@@ -770,12 +756,10 @@
             infoModal.style.display = 'none';
         };
 
-        // Periodické aktualizace textu odpočtu, pokud je modál otevřený
         setInterval(() => {
             if (infoModal.style.display === 'flex' && currentModalType === 'EARLY') {
                 const now = new Date();
                 if (now >= openTime) {
-                    // Pokud čas mezitím vypršel, překlopíme stav
                     handleApplyClick();
                 } else {
                     infoModalText.innerText = `Formulář se automaticky otevře v úterý 12. 5. v 8:00. Zbývá vám ještě ${formatCountdown()}. Stránku není nutné obnovovat.`;
@@ -783,23 +767,19 @@
             }
         }, 1000);
 
-        // Event Listenery
         searchInput.oninput = renderProjects;
         clearSearch.onclick = () => { searchInput.value = ''; renderProjects(); };
         filterYear.onchange = renderProjects;
         filterDay.onchange = renderProjects;
-        filterLeader.onchange = renderProjects;
         closeModalBtn.onclick = closeDetail;
         closeModalBottomBtn.onclick = closeDetail;
         mainApplyBtn.onclick = handleApplyClick;
 
-        // Zavření kliknutím mimo okno
         window.onclick = function(event) {
             if (event.target === detailModal) closeDetail();
             if (event.target === infoModal) infoModal.style.display = 'none';
         };
 
-        // První spuštění katalogu
         renderProjects();
     </script>
 </body>
