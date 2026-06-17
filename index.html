@@ -23,15 +23,6 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                    },
-                    transitionProperty: {
-                        'smooth': 'all',
-                    },
-                    transitionTimingFunction: {
-                        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
-                    },
-                    transitionDuration: {
-                        'smooth': '300ms',
                     }
                 }
             }
@@ -60,10 +51,9 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        // OPRAVA: Odstraněno problematické useMemo z destrukturalizace
         const { useState, useEffect } = React;
 
-        // Bezpečné ošetření inicializace ikon pro případ výpadku nebo změny CDN
+        // Bezpečné vykreslení ikon
         const Icon = ({ name, className }) => {
             useEffect(() => { 
                 if (window.lucide && typeof window.lucide.createIcons === 'function') {
@@ -73,7 +63,7 @@
             return <i data-lucide={name} className={className}></i>;
         };
 
-        // Kompletní databáze projektů pro rok 2026
+        // Databáze projektů
         const projectsData = [
             {
                 id: 1,
@@ -156,16 +146,16 @@
             const [isModalOpen, setIsModalOpen] = useState(false);
             const [timeRemaining, setTimeRemaining] = useState("");
 
-            // OPRAVA: Zjednodušení definice času bez použití problematické reference
+            // Bezpečné nastavení koncového času (+2 hodiny od otevření)
             const [closeTime] = useState(() => {
                 const date = new Date();
-                date.setHours(date.getHours() + 2); 
-                return date;
+                date.setHours(date.getHours() + 2);
+                return date.getTime();
             });
 
             useEffect(() => {
                 const timer = setInterval(() => {
-                    const now = new Date();
+                    const now = new Date().getTime();
                     const diff = closeTime - now;
 
                     if (diff <= 0) {
@@ -181,10 +171,15 @@
                 return () => clearInterval(timer);
             }, [closeTime]);
 
-            // OPRAVA: Získání unikátních tagů bez externí useMemo závislosti
-            const allTags = ["Vše", ...Array.from(new Set(projectsData.flatMap(p => p.tags)))];
+            // Generování seznamu tagů
+            const allTags = ["Vše"];
+            projectsData.forEach(p => {
+                p.tags.forEach(t => {
+                    if (!allTags.includes(t)) allTags.push(t);
+                });
+            });
 
-            // OPRAVA: Filtrování dat přímo při renderu (rychlé a bezpečné)
+            // Filtrování projektů
             const filteredProjects = projectsData.filter(project => {
                 const matchesSearch = project.title.toLowerCase().includes(search.toLowerCase()) || 
                                      project.garant.toLowerCase().includes(search.toLowerCase()) ||
@@ -194,10 +189,6 @@
                 
                 return matchesSearch && matchesTag && matchesFull;
             });
-
-            const handleApply = () => {
-                setIsModalOpen(true);
-            };
 
             return (
                 <div className="p-4 md:p-8 max-w-7xl mx-auto">
@@ -234,7 +225,6 @@
 
                     {/* Ovládací prvky a Filtry */}
                     <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-teal-100 dark:border-slate-800/80 mb-8 flex flex-col gap-6">
-                        {/* Vyhledávání a Toggle */}
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div className="relative w-full md:w-96">
                                 <Icon name="search" className="w-5 h-5 absolute left-4 top-3.5 text-slate-400" />
@@ -243,7 +233,7 @@
                                     placeholder="Hledat projekt, garanta, klíčová slova..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-medium text-sm transition-smooth"
+                                    className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-medium text-sm integration-smooth"
                                 />
                             </div>
 
@@ -255,24 +245,23 @@
                                         onChange={() => setShowFull(!showFull)} 
                                         className="sr-only" 
                                     />
-                                    <div className={`w-12 h-6 rounded-full transition-smooth ${showFull ? 'bg-brand-medium' : 'bg-slate-300 dark:bg-slate-800'}`}></div>
-                                    <div className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-smooth shadow-sm ${showFull ? 'transform translate-x-6' : ''}`}></div>
+                                    <div className={`w-12 h-6 rounded-full duration-300 ${showFull ? 'bg-brand-medium' : 'bg-slate-300 dark:bg-slate-800'}`}></div>
+                                    <div className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full duration-300 shadow-sm ${showFull ? 'transform translate-x-6' : ''}`}></div>
                                 </div>
-                                <span className="text-sm font-bold text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-smooth">
+                                <span className="text-sm font-bold text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200">
                                     Zobrazovat i plně obsazené projekty
                                 </span>
                             </label>
                         </div>
 
-                        {/* Tagy */}
                         <div className="flex flex-wrap gap-2 border-t border-slate-100 dark:border-slate-800/60 pt-4">
                             {allTags.map(tag => (
                                 <button
                                     key={tag}
                                     onClick={() => setSelectedTag(tag)}
-                                    className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-smooth ${
+                                    className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider duration-200 ${
                                         selectedTag === tag 
-                                        ? 'bg-brand-medium text-white shadow-md shadow-teal-500/10' 
+                                        ? 'bg-brand-medium text-white shadow-md' 
                                         : 'bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'
                                     }`}
                                 >
@@ -282,19 +271,18 @@
                         </div>
                     </div>
 
-                    {/* Výsledky: Mřížka projektů */}
+                    {/* Výsledky */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredProjects.map(project => (
                             <div 
                                 key={project.id} 
-                                className={`bg-white dark:bg-slate-900 rounded-3xl p-6 border transition-smooth flex flex-col justify-between group ${
+                                className={`bg-white dark:bg-slate-900 rounded-3xl p-6 border duration-300 flex flex-col justify-between group ${
                                     project.isFull 
                                     ? 'border-slate-200 dark:border-slate-800/50 opacity-75' 
-                                    : 'border-teal-100 dark:border-slate-800 hover:border-brand-light dark:hover:border-brand-medium hover:shadow-xl hover:shadow-teal-500/[0.02]'
+                                    : 'border-teal-100 dark:border-slate-800 hover:border-brand-light dark:hover:border-brand-medium'
                                 }`}
                             >
                                 <div>
-                                    {/* Hlavička karty */}
                                     <div className="flex justify-between items-start gap-4 mb-4">
                                         <div className="flex flex-wrap gap-1.5">
                                             {project.tags.map(t => (
@@ -312,8 +300,7 @@
                                         </span>
                                     </div>
 
-                                    {/* Název a Garant */}
-                                    <h3 className="text-xl font-extrabold mb-2 text-slate-900 dark:text-slate-50 group-hover:text-brand-medium dark:group-hover:text-brand-light transition-smooth">
+                                    <h3 className="text-xl font-extrabold mb-2 text-slate-900 dark:text-slate-50 group-hover:text-brand-medium dark:group-hover:text-brand-light">
                                         {project.title}
                                     </h3>
                                     <p className="text-xs font-bold text-slate-400 dark:text-slate-500 mb-4 flex items-center gap-1.5">
@@ -321,13 +308,11 @@
                                         Garant: {project.garant}
                                     </p>
 
-                                    {/* Popis */}
                                     <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-3 mb-6 font-medium leading-relaxed">
                                         {project.description}
                                     </p>
                                 </div>
 
-                                {/* Spodní specifikace a kapacita */}
                                 <div className="border-t border-slate-50 dark:border-slate-800/60 pt-4 mt-auto">
                                     <div className="grid grid-cols-2 gap-y-3 gap-x-2 text-xs font-bold text-slate-500 dark:text-slate-400 mb-4">
                                         <div className="flex items-center gap-1.5 min-w-0">
@@ -350,14 +335,13 @@
                                         </div>
                                     </div>
 
-                                    {/* Akční tlačítko */}
                                     <button 
                                         disabled={project.isFull}
-                                        onClick={handleApply}
-                                        className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-smooth flex items-center justify-center gap-2 ${
+                                        onClick={() => setIsModalOpen(true)}
+                                        className={`w-full py-2.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 ${
                                             project.isFull 
                                             ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed' 
-                                            : 'bg-slate-900 hover:bg-brand-medium text-white dark:bg-slate-800 dark:hover:bg-brand-medium shadow-md shadow-slate-900/5'
+                                            : 'bg-slate-900 hover:bg-brand-medium text-white dark:bg-slate-800 dark:hover:bg-brand-medium'
                                         }`}
                                     >
                                         <Icon name={project.isFull ? "lock" : "arrow-right"} className="w-3.5 h-3.5" />
@@ -373,17 +357,17 @@
                         <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
                             <Icon name="folder-open" className="w-12 h-12 text-slate-300 dark:text-slate-700 mx-auto mb-4" />
                             <h3 className="text-lg font-bold mb-1 text-slate-700 dark:text-slate-300">Žádné projekty neodpovídají filtrům</h3>
-                            <p className="text-sm text-slate-400 dark:text-slate-500">Zkuste změnit klíčové slovo nebo vybrat jinou kategori.</p>
+                            <p className="text-sm text-slate-400 dark:text-slate-500">Zkuste změnit klíčové slovo.</p>
                         </div>
                     )}
 
-                    {/* Přihlašovací Modal Okno */}
+                    {/* Modal Okno */}
                     {isModalOpen && (
-                        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+                        <div className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                             <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 max-w-md w-full border border-teal-100 dark:border-slate-800 shadow-2xl relative">
                                 <button 
                                     onClick={() => setIsModalOpen(false)}
-                                    className="absolute right-4 top-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-smooth"
+                                    className="absolute right-4 top-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                                 >
                                     <Icon name="x" className="w-5 h-5" />
                                 </button>
@@ -398,19 +382,19 @@
                                 </div>
                                 <button 
                                     onClick={() => setIsModalOpen(false)}
-                                    className="w-full bg-brand-medium hover:bg-brand-dark text-white font-black uppercase text-xs tracking-widest py-3 rounded-xl transition-smooth shadow-lg shadow-teal-500/10"
+                                    className="w-full bg-brand-medium hover:bg-brand-dark text-white font-black uppercase text-xs tracking-widest py-3 rounded-xl shadow-lg"
                                 >
-                                    {new Date() < closeTime ? "Otevřít formulář" : "Rozumím, pokračovat"}
+                                    Rozumím, pokračovat
                                 </button>
                             </div>
                         </div>
                     )}
 
-                    {/* Plovoucí tlačítko "Chci se přihlásit" */}
+                    {/* Plovoucí tlačítko */}
                     <div className="fixed bottom-8 right-8 z-40">
                         <button 
-                            onClick={handleApply}
-                            className="bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-6 py-3.5 rounded-full shadow-2xl transition-smooth flex items-center justify-center gap-2 group border border-teal-400/20 dark:border-yellow-500/30"
+                            onClick={() => setIsModalOpen(true)}
+                            className="bg-brand-yellow hover:bg-brand-yellowHover text-teal-950 px-6 py-3.5 rounded-full shadow-2xl flex items-center justify-center gap-2 group border border-teal-400/20"
                         >
                             <Icon name="pen-tool" className="w-5 h-5" />
                             <span className="font-black uppercase text-xs tracking-widest">Chci se přihlásit</span>
